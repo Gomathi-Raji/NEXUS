@@ -1,0 +1,8 @@
+/* Hide native scrollbars for RepositoryIssues only */
+.hide-native-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.hide-native-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}

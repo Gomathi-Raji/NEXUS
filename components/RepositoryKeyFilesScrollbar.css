@@ -1,0 +1,18 @@
+/* Custom scrollbar for file content viewer in dialog */
+.custom-scrollbar {
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 16px; /* Make it wider for usability, but visually hidden */
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
