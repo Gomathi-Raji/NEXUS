@@ -495,7 +495,7 @@ export default function OpenSourcePage() {
     <div className="container mx-auto p-4 md:p-8 pt-24 md:pt-32">
       {/* Ambient background effects */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-black/80 via-gray-900/60 to-black/80 pointer-events-none" />
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/40 via-transparent to-transparent opacity-60 pointer-events-none" />
       
       {/* Hide header when dialog or sheet is open */}
       {!(showIssues || showExplanation) && (
@@ -504,7 +504,7 @@ export default function OpenSourcePage() {
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
               Find Open Source Issues
             </h1>
-            <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/0 via-amber-500/10 to-amber-500/0 blur-xl opacity-50 -z-10"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-golden-500/0 via-golden-500/10 to-golden-500/0 blur-xl opacity-50 -z-10"></div>
           </div>
           <p className="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Discover repositories with good first issues and bounties to contribute to open source.
@@ -550,21 +550,33 @@ export default function OpenSourcePage() {
               <div className="space-y-2">
                 <label className="text-white/70 text-sm">Language (Optional)</label>
                 <Select value={language} onValueChange={(value) => setLanguage(value === 'any' ? '' : value)}>
-                  <SelectTrigger className="w-full bg-black/30 text-white/90 border-white/20 rounded-lg backdrop-blur-xl hover:bg-black/40 hover:border-white/30 transition-all duration-300 shadow-sm">
-                    <SelectValue placeholder="Select a language" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-black/80 border-white/20 text-white/90 backdrop-blur-xl rounded-lg shadow-lg">
-                    <SelectItem value="any" className="hover:bg-black/50 focus:bg-black/50">Any Language</SelectItem>
-                    <SelectItem value="javascript" className="hover:bg-black/50 focus:bg-black/50">JavaScript</SelectItem>
-                    <SelectItem value="typescript" className="hover:bg-black/50 focus:bg-black/50">TypeScript</SelectItem>
-                    <SelectItem value="python" className="hover:bg-black/50 focus:bg-black/50">Python</SelectItem>
-                    <SelectItem value="java" className="hover:bg-black/50 focus:bg-black/50">Java</SelectItem>
-                    <SelectItem value="go" className="hover:bg-black/50 focus:bg-black/50">Go</SelectItem>
-                    <SelectItem value="rust" className="hover:bg-black/50 focus:bg-black/50">Rust</SelectItem>
-                    <SelectItem value="c#" className="hover:bg-black/50 focus:bg-black/50">C#</SelectItem>
-                    <SelectItem value="php" className="hover:bg-black/50 focus:bg-black/50">PHP</SelectItem>
-                    <SelectItem value="ruby" className="hover:bg-black/50 focus:bg-black/50">Ruby</SelectItem>
-                  </SelectContent>
+                <SelectTrigger className="w-full bg-black/40 text-white/90 border-white/20 rounded-lg backdrop-blur-xl hover:bg-black/40 hover:border-white/30 transition-all duration-300 shadow-sm">
+              <SelectValue placeholder="Select a language" />
+            </SelectTrigger>
+
+            <SelectContent className="bg-black/80 border-white/20 text-white/90 backdrop-blur-xl rounded-lg shadow-lg">
+              {[
+                { value: "any", label: "Any Language" },
+                { value: "javascript", label: "JavaScript" },
+                { value: "typescript", label: "TypeScript" },
+                { value: "python", label: "Python" },
+                { value: "java", label: "Java" },
+                { value: "go", label: "Go" },
+                { value: "rust", label: "Rust" },
+                { value: "c#", label: "C#" },
+                { value: "php", label: "PHP" },
+                { value: "ruby", label: "Ruby" },
+              ].map((item) => (
+                <SelectItem
+                  key={item.value}
+                  value={item.value}
+                  className="hover:bg-[linear-gradient(135deg,#2a2a2a,#3a3a3a,#4a4a4a)] hover:text-white focus:bg-[linear-gradient(135deg,#2a2a2a,#3a3a3a,#4a4a4a)] focus:text-white transition-all duration-50"
+                >
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+
                 </Select>
               </div>
               
@@ -584,17 +596,6 @@ export default function OpenSourcePage() {
           </div>
         </div>
 
-        {/* Loading Spinner */}
-        {isLoading && (
-          <div className="my-12 animate-in fade-in duration-300">
-            <LiquidLoader text="Finding repositories with real issues" size="lg" />
-            {showTimeoutMessage && (
-              <div className="mt-6 text-center text-amber-300 text-base font-medium animate-pulse bg-black/40 border border-amber-500/20 rounded-xl px-6 py-3 max-w-lg mx-auto shadow-lg backdrop-blur-xl">
-                Please wait, It may take some moment
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Error Message */}
         {error && (

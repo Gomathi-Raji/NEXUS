@@ -1,4 +1,4 @@
-#  NEXUS?
+#  NEXUS
 
 > **Discover, analyze, and build amazing projects with comprehensive GitHub insights**
 

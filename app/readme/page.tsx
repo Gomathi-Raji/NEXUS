@@ -559,14 +559,14 @@ export default function ReadmePage() {
     <div className="container mx-auto p-4 md:p-8 pt-24 md:pt-32">
       {/* Ambient background effects to match search page */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-black/80 via-gray-900/60 to-black/80 pointer-events-none" />
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-900/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-golden-900/20 via-transparent to-transparent opacity-60 pointer-events-none" />
 
       <header className="text-center mt-24 md:mt-32 mb-8 md:mb-12">
         <div className="relative inline-block">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
             Generate a Great README
           </h1>
-          <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/0 via-amber-500/10 to-amber-500/0 blur-xl opacity-50 -z-10"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-golden-500/0 via-golden-500/10 to-golden-500/0 blur-xl opacity-50 -z-10"></div>
         </div>
         <p className="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
           Paste a GitHub repository URL or owner/repo. Analyze the codebase and draft a polished README. Edit and preview live.

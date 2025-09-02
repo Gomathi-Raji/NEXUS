@@ -41,16 +41,16 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Your Random Idea to GitHub Repo",
       description: "Transform your creative ideas into structured GitHub repositories with AI-powered project scaffolding",
       icon: <FaRocket />,
-      videoSrc: "/videos/idea-to-repo.mp4",
-      posterSrc: "/images/idea-to-repo-poster.jpg"
+      videoSrc: "/images/hero4.jpg",
+      posterSrc: "/images/heroo1.png"
     },
     {
       id: 'find-repos',
       title: "Find Best Open Source Repos to Contribute",
       description: "Discover good first issues, bounty issues, and major contributions across different programming languages",
       icon: <FaSearch />,
-      videoSrc: "/videos/find-repos.mp4",
-      posterSrc: "/images/find-repos-poster.jpg"
+      videoSrc: "/images/hero4.jpg",
+      posterSrc: "/images/hero2.png"
     },
     {
       id: 'compare-devs',
@@ -58,7 +58,7 @@ const Features = ({ forceDarkMode = true }) => {
       description: "Compare GitHub profiles, analyze contribution patterns, and visualize developer statistics side by side",
       icon: <FaUsers />,
       videoSrc: "/videos/compare-devs.mp4",
-      posterSrc: "/images/compare-devs-poster.jpg"
+      posterSrc: "/images/hero3.png"
     },
     {
       id: 'generate-readme',
@@ -66,7 +66,7 @@ const Features = ({ forceDarkMode = true }) => {
       description: "Paste a repo URL, analyze the codebase, and draft a polished README with live edit and preview.",
       icon: <FaFileAlt />,
       videoSrc: "/videos/generate-readme.mp4",
-      posterSrc: "/images/generate-readme-poster.jpg"
+      posterSrc: "/images/hero4.png"
     }
   ];
 
@@ -110,11 +110,15 @@ const Features = ({ forceDarkMode = true }) => {
                 <button
                   onClick={() => handleFeatureClick(feature.id)}
                   aria-label={feature.title}
-                  className={`group relative aspect-square rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-300 ${
-                    activeFeature === feature.id ? 'ring-1 ring-blue-400/40 shadow-[0_0_16px_2px_rgba(80,180,255,0.18)]' : 'hover:border-white/20'
+                  className={`group relative aspect-square rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-500 ${
+                    activeFeature === feature.id 
+                      ? 'ring-2 ring-yellow-400/50 shadow-[0_0_25px_5px_rgba(255,215,0,0.3)] bg-gradient-to-br from-yellow-900/40 to-amber-900/20 border-yellow-400/40' 
+                      : 'hover:border-white/20 hover:bg-black/60'
                   }`}
                 >
-                  <div className="text-white text-2xl">{feature.icon}</div>
+                  <div className={`text-2xl transition-all duration-500 ${
+                    activeFeature === feature.id ? 'text-yellow-300' : 'text-white'
+                  }`}>{feature.icon}</div>
                 </button>
                 {activeFeature === feature.id && (
                   <div className="col-span-2 -mt-1">
@@ -173,47 +177,67 @@ const Features = ({ forceDarkMode = true }) => {
             {premiumFeatures.map((feature) => (
               <div
                 key={feature.id}
-                className={`group relative cursor-pointer transition-all duration-300 rounded-2xl md:rounded-3xl overflow-hidden ${
+                className={`group relative cursor-pointer transition-all duration-500 rounded-2xl md:rounded-3xl overflow-hidden ${
                   activeFeature === feature.id 
-                    ? 'scale-105 z-20 border-blue-400/30 -translate-y-1 shadow-[0_0_16px_2px_rgba(80,180,255,0.18)] bg-black/60' 
-                    : 'hover:scale-105 hover:border-white/20'
+                    ? 'scale-105 z-20 -translate-y-1' 
+                    : 'hover:scale-[1.02] hover:border-white/20'
                 }`}
                 style={
                   activeFeature === feature.id
                     ? {
-                        borderColor: 'rgba(80,180,255,0.30)',
-                        background: 'rgba(10,20,40,0.85)',
-                        transform: 'scale(1.05) translateY(-4px)'
+                        borderImage: 'linear-gradient(135deg, rgba(255, 215, 0, 0.8), rgba(255, 193, 7, 0.6), rgba(255, 165, 0, 0.4)) 1',
+                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 193, 7, 0.1), rgba(255, 165, 0, 0.05))',
+                        boxShadow: `
+                          0 0 30px 5px rgba(255, 215, 0, 0.3),
+                          0 0 60px 10px rgba(255, 193, 7, 0.2),
+                          0 0 100px 20px rgba(255, 165, 0, 0.1),
+                          inset 0 1px 0 rgba(255, 215, 0, 0.4)
+                        `,
+                        transform: 'scale(1.05) translateY(-6px)',
+                        border: '2px solid transparent',
+                        backgroundClip: 'padding-box'
                       }
                     : undefined
                 }
                 onClick={() => handleFeatureClick(feature.id)}
               >
-                <div className="relative rounded-2xl border border-white/10 p-2 transition-all duration-300 hover:border-white/20 md:rounded-3xl md:p-3">
+                <div className="relative rounded-2xl border border-white/10 p-2 transition-all duration-500 hover:border-white/20 md:rounded-3xl md:p-3 group-hover:border-golden/30">
                   <GlowingEffect
                     blur={0}
                     borderWidth={2}
-                    spread={60}
+                    spread={80}
                     glow={true}
                     disabled={false}
-                    proximity={48}
+                    proximity={60}
                     inactiveZone={0.01}
                   />
-                  <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm p-6 border border-white/5 md:p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
+                  <div className={`relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl backdrop-blur-sm p-6 border md:p-6 transition-all duration-500 ${
+                    activeFeature === feature.id 
+                      ? 'bg-gradient-to-br from-yellow-900/30 via-amber-900/20 to-orange-900/10 border-yellow-500/30 shadow-inner' 
+                      : 'bg-black/40 border-white/5'
+                  } dark:shadow-[0px_0px_27px_0px_#2D2D2D]`}>
                     <div className="flex items-center">
-                      <div className="w-fit rounded-lg border border-white/20 bg-white/5 p-2 backdrop-blur-sm mr-4">
-                        <div className="h-4 w-4 text-white">
+                      <div className={`w-fit rounded-lg border backdrop-blur-sm mr-4 p-2 transition-all duration-500 ${
+                        activeFeature === feature.id 
+                          ? 'border-yellow-400/40 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 shadow-lg shadow-yellow-500/20' 
+                          : 'border-white/20 bg-white/5'
+                      }`}>
+                        <div className={`h-4 w-4 transition-all duration-500 ${
+                          activeFeature === feature.id ? 'text-yellow-300' : 'text-white'
+                        }`}>
                           {feature.icon}
                         </div>
                       </div>
                       <div className="flex-grow">
-                        <h3 className="-tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold text-balance text-white">
+                        <h3 className={`-tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold text-balance transition-all duration-500 ${
+                          activeFeature === feature.id ? 'text-yellow-100' : 'text-white'
+                        }`}>
                           {feature.title}
                         </h3>
                       </div>
-                      <div className={`transition-all duration-300 transform ${
+                      <div className={`transition-all duration-500 transform ${
                         activeFeature === feature.id 
-                          ? 'text-white translate-x-2' 
+                          ? 'text-yellow-300 translate-x-3 scale-110' 
                           : 'text-white/50 group-hover:text-white/70 group-hover:translate-x-1'
                       }`}>
                         <FaChevronRight />

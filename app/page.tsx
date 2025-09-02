@@ -28,11 +28,11 @@ const SplineErrorBoundary = ({ children }: { children: React.ReactNode }) => {
 
   if (hasError) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-red-900/20 via-red-800/10 to-red-700/20">
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-golden-900/20 via-amber-900/10 to-bronze-900/20">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 text-red-400 text-4xl">⚠️</div>
-          <p className="text-red-300 text-lg font-medium">3D Scene Error</p>
-          <p className="text-red-400/70 text-sm mt-2">
+          <div className="w-16 h-16 mx-auto mb-4 text-amber-400 text-4xl">⚠️</div>
+          <p className="text-amber-300 text-lg font-medium">3D Scene Error</p>
+          <p className="text-amber-400/70 text-sm mt-2">
             Failed to load Spline component
           </p>
         </div>
@@ -61,12 +61,6 @@ const Page = () => {
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-golden-900/20 via-amber-900/10 to-bronze-900/20">
                   <div className="text-center">
                     <div className="w-20 h-20 mx-auto mb-6 border-4 border-golden-500/50 border-t-golden-400 rounded-full animate-spin"></div>
-                    <p className="text-golden-300 text-xl font-medium mb-2">
-                      3D Scene Loading...
-                    </p>
-                    <p className="text-golden-400/70 text-base">
-                      Interactive 3D Experience
-                    </p>
                   </div>
                 </div>
               }

@@ -42,14 +42,16 @@ export default function Hero({
   title = "NEXUS",
   description = "Enter a concept to discover and analyze relevant open-source projects.",
   mockup = (
-    <Screenshot
-      srcLight="/images/search.png"
-      srcDark="/images/search.png"
-      alt="Search UI app screenshot"
-      width={1248}
-      height={765}
-      className="w-full"
-    />
+    <div className="w-full flex justify-center">
+      <Screenshot
+        srcLight="/images/search.png"
+        srcDark="/images/search.png"
+        alt="Search UI app screenshot"
+        width={1500}
+        height={765}
+        className="w-full max-w-7xl rounded-2xl shadow-2xl border border-border/20 object-contain"
+      />
+    </div>
   ),
   badge = (
     <Badge variant="outline" className="animate-appear">

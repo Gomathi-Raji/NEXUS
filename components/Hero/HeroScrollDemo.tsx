@@ -11,7 +11,7 @@ export function HeroScrollDemo() {
           <>
             <h1 className="text-4xl font-semibold text-white">
               Find Your Next <br />
-              <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none bg-gradient-to-r from-golden-400 to-golden-500 bg-clip-text text-transparent">
                 Project
               </span>
             </h1>
@@ -25,7 +25,7 @@ export function HeroScrollDemo() {
           src="/GithubImages/search.png"
           alt="Project search interface"
           height={720}
-          width={1400}
+          width={1500}
           className="mx-auto rounded-2xl object-cover h-full object-left-top shadow-2xl border border-gray-800"
           draggable={false}
         />

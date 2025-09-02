@@ -341,9 +341,11 @@ function AnalyzePageContent() {
   return (
     <main className="container mx-auto px-4 py-8 pt-24 md:pt-32">
       <div className="bg-black/30 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden shadow-lg relative group animate-in fade-in zoom-in-95 duration-500 mb-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-pink-500/20 
+    opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out pointer-events-none 
+    animate-gradient-move"></div>
         <div className="p-6">
-          <h1 className="text-3xl font-bold mb-2">Repository Analysis: <span className="text-green-400">{repoFullName}</span></h1>
+          <h1 className="text-3xl font-bold mb-2">Repository Analysis: <span className="text-white-400">{repoFullName}</span></h1>
           <p className="text-lg text-gray-400 mb-4">
             Insights and structure visualization for better understanding.
           </p>

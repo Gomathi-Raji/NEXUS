@@ -72,12 +72,12 @@ const UpcomingBadge = ({
   const [isHovered, setIsHovered] = useState(false);
   
   const gradientClass = platform === "Peerlist" 
-    ? "from-green-500 via-emerald-500 to-teal-500" 
-    : "from-orange-500 via-red-500 to-pink-500";
+    ? "from-golden-600 via-golden-500 to-golden-400" 
+    : "from-golden-600 via-golden-500 to-golden-400";
   
   const hoverGradient = platform === "Peerlist"
-    ? "hover:from-green-400 hover:via-emerald-400 hover:to-teal-400"
-    : "hover:from-orange-400 hover:via-red-400 hover:to-pink-400";
+    ? "hover:from-golden-500 hover:via-golden-400 hover:to-golden-300"
+    : "hover:from-golden-500 hover:via-golden-400 hover:to-golden-300";
 
   return (
     <a
@@ -126,15 +126,18 @@ export default function Hero({
   title = "NEXUS",
   description = "Enter a concept to discover and analyze relevant open-source projects.",
   mockup = (
+  <div className="w-full flex justify-center">
     <Screenshot
       srcLight="/GithubImages/search.png"
       srcDark="/GithubImages/search.png"
       alt="Search UI app screenshot"
-      width={1248}
-      height={765}
-      className="w-full"
+      width={1920}
+      height={1080}
+      className="w-[90vw] max-w-7xl rounded-2xl shadow-2xl border border-border/20 object-contain"
     />
-  ),
+  </div>
+),
+
   badge = (
     <Badge variant="outline" className="animate-appear">
       <span className="text-muted-foreground">
@@ -217,12 +220,12 @@ export default function Hero({
         
         {/* Top-right GitHub star badge for desktop */}
         <div className="pointer-events-auto fixed right-4 top-4 z-40 hidden sm:block">
-          <GitHubStarBadge repoFullName="itzdineshx/kicksy" />
+          <GitHubStarBadge repoFullName="itzdineshx/NEXUS" />
         </div>
         
         {/* Mobile placement: floating bottom-right to avoid header overlap */}
         <div className="sm:hidden fixed right-3 bottom-3 z-40">
-          <GitHubStarBadge repoFullName="itzdineshx/kicksy" compact />
+          <GitHubStarBadge repoFullName="itzdineshx/NEXUS" compact />
         </div>
         
         <div className="max-w-container mx-auto flex flex-col gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-16 px-4 sm:px-6 md:px-8">

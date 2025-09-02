@@ -38,11 +38,11 @@ const Footer = () => {
                 {/* Subtle text glow */}
                 <div className="absolute inset-0 blur-lg">
                   <h3 className="font-sans text-4xl font-bold text-white/20">
-                    NEXUS?
+                    NEXUS
                   </h3>
                 </div>
                 <h3 className="relative -tracking-wide font-sans text-4xl font-bold text-white mb-6 leading-tight">
-                  NEXUS?
+                  NEXUS
                 </h3>
                 
                 <p className="font-sans text-xl text-white/80 leading-relaxed max-w-lg">

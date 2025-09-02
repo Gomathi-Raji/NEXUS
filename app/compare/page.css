@@ -13,7 +13,7 @@
 
 .animate-pulse-vs {
   animation: pulse-vs 1.2s cubic-bezier(.4,0,.6,1) both;
-  filter: drop-shadow(0 0 10px rgba(59,130,246,0.55)) drop-shadow(0 0 24px rgba(29,78,216,0.35));
+  filter: drop-shadow(0 0 10px rgba(246, 178, 59, 0.55)) drop-shadow(0 0 24px rgba(29,78,216,0.35));
   transform-origin: center center;
 }
 /* Fix for oklch colors in html2canvas */

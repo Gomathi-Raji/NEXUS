@@ -239,7 +239,7 @@ function UserComparisonCard({ user, stats, badge, winner }: UserComparisonCardPr
             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.3)',
             transform: 'translateY(-0.5px)',
           }}>
-          <p className="text-xs font-bold italic text-center bg-gradient-to-r from-orange-400 via-red-400 to-yellow-400 bg-clip-text text-transparent group-hover:from-yellow-300 group-hover:via-orange-400 group-hover:to-red-500 transition-all duration-500 line-clamp-1"
+          <p className="text-xs font-bold italic text-center bg-gradient-to-r from-golden-400 via-golden-500 to-golden-400 bg-clip-text text-transparent group-hover:from-golden-300 group-hover:via-golden-400 group-hover:to-golden-300 transition-all duration-500 line-clamp-1"
             style={{
               textShadow: '0 0 20px rgba(251, 146, 60, 0.5)',
               filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
@@ -251,10 +251,10 @@ function UserComparisonCard({ user, stats, badge, winner }: UserComparisonCardPr
         {/* Stats Grid */}
         <div className="grid grid-cols-4 gap-2 mb-3">
           {[
-            { label: 'Repos', value: user.public_repos, gradient: 'from-blue-500/15 to-blue-600/5' },
-            { label: 'Followers', value: user.followers, gradient: 'from-green-500/15 to-green-600/5' },
-            { label: 'Stars', value: stats.totalStars, gradient: 'from-yellow-500/15 to-yellow-600/5' },
-            { label: 'Forks', value: stats.totalForks, gradient: 'from-purple-500/15 to-purple-600/5' }
+            { label: 'Repos', value: user.public_repos, gradient: 'from-golden-500/15 to-golden-600/5' },
+            { label: 'Followers', value: user.followers, gradient: 'from-golden-500/15 to-golden-600/5' },
+            { label: 'Stars', value: stats.totalStars, gradient: 'from-golden-500/15 to-golden-600/5' },
+            { label: 'Forks', value: stats.totalForks, gradient: 'from-golden-500/15 to-golden-600/5' }
           ].map((stat) => (
             <div
               key={stat.label}
@@ -402,11 +402,11 @@ function UserComparisonCard({ user, stats, badge, winner }: UserComparisonCardPr
 
 // Get badge for user based on stats
 const getBadge = (user: GitHubUser, stats: GitHubStats) => {
-  if (stats.totalStars > 1000) return { icon: Star, text: 'Star Hunter', color: 'text-yellow-400' };
-  if (user.followers > 500) return { icon: Users, text: 'Influencer', color: 'text-blue-400' };
-  if (user.public_repos > 50) return { icon: Code, text: 'Code Machine', color: 'text-green-400' };
-  if (stats.contributions > 500) return { icon: Flame, text: 'Commit Beast', color: 'text-red-400' };
-  return { icon: Trophy, text: 'Rising Star', color: 'text-orange-400' };
+  if (stats.totalStars > 1000) return { icon: Star, text: 'Star Hunter', color: 'text-golden-400' };
+  if (user.followers > 500) return { icon: Users, text: 'Influencer', color: 'text-golden-300' };
+  if (user.public_repos > 50) return { icon: Code, text: 'Code Machine', color: 'text-golden-400' };
+  if (stats.contributions > 500) return { icon: Flame, text: 'Commit Beast', color: 'text-golden-300' };
+  return { icon: Trophy, text: 'Rising Star', color: 'text-golden-400' };
 };
 
 export function CompareCard() {

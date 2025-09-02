@@ -15,6 +15,7 @@ interface Particle {
 // Animated background particles (floating GitHub icons)
 export function BackgroundParticles() {
   const [particles, setParticles] = React.useState<Particle[]>([]);
+  
   useEffect(() => {
     // Generate random particles on mount
     const count = 18;
@@ -25,7 +26,7 @@ export function BackgroundParticles() {
       size: 28 + Math.random() * 24,
       speed: 0.15 + Math.random() * 0.25,
       drift: Math.random() * 0.5,
-      opacity: 0.12 + Math.random() * 0.18,
+      opacity: 0.08 + Math.random() * 0.12, // Reduced opacity for better text visibility
       color: [
         '#f1e05a', // JS
         '#2b7489', // TS
@@ -37,7 +38,7 @@ export function BackgroundParticles() {
         '#701516', // Ruby
         '#ffac45', // Swift
         '#fff', // White
-      ][Math.floor(Math.random() * 11)]
+      ][Math.floor(Math.random() * 10)]
     }));
     setParticles(arr);
   }, []);
@@ -77,7 +78,7 @@ export function BackgroundParticles() {
             left: `calc(${p.x * 100}vw - ${p.size / 2}px)`,
             top: `calc(${p.y * 100}vh - ${p.size / 2}px)`,
             opacity: p.opacity,
-            filter: 'blur(0.5px)',
+            filter: 'blur(0.3px)', // Reduced blur
             zIndex: 10,
             transition: 'opacity 0.3s',
           }}
@@ -93,49 +94,128 @@ export function BackgroundParticles() {
   );
 }
 
-// Animated glass shine overlay component
+// Improved animated glass shine overlay component
 export default function GlassShineAnimation() {
-  const [shinePos, setShinePos] = useState(0);
+  const [shinePos, setShinePos] = useState(-0.2);
+  
   useEffect(() => {
     let running = true;
-    function animate() {
-      setShinePos(prev => {
-        let next = prev + 0.0025; // much slower
-        if (next > 1) {
-          next = 0;
-        }
-        return next;
-      });
+    let lastTime = 0;
+    
+    function animate(currentTime) {
+      if (currentTime - lastTime > 16) { // ~60fps
+        setShinePos(prev => {
+          let next = prev + 0.008; // Smoother, more noticeable speed
+          if (next > 1.2) {
+            // Add a pause before restarting
+            setTimeout(() => {
+              if (running) setShinePos(-0.2);
+            }, 2000);
+            return 1.2;
+          }
+          return next;
+        });
+        lastTime = currentTime;
+      }
       if (running) requestAnimationFrame(animate);
     }
     animate();
     return () => { running = false; };
   }, []);
-  // The gradient moves left-to-right and right-to-left in a loop
+
   return (
-    <div
-      className="absolute inset-0 rounded-2xl pointer-events-none"
-      style={{
-        zIndex: 1,
-        overflow: 'hidden',
-      }}
-    >
+    <>
+      {/* Main shine effect */}
       <div
+        className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden"
+        style={{ zIndex: 1 }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: '-20%',
+            left: '-20%',
+            width: '40%',
+            height: '140%',
+            background: `linear-gradient(90deg, 
+              transparent 0%, 
+              rgba(255,255,255,0.1) 40%, 
+              rgba(255,255,255,0.3) 50%, 
+              rgba(255,255,255,0.1) 60%, 
+              transparent 100%)`,
+            transform: `translateX(${shinePos * 120}%) skewX(-20deg)`,
+            filter: 'blur(1px)',
+            transition: shinePos >= 1.2 ? 'none' : 'transform 0.1s ease-out',
+          }}
+        />
+      </div>
+      
+      {/* Subtle glass reflection effect */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          borderRadius: 'inherit',
-          pointerEvents: 'none',
-          background: `linear-gradient(120deg, rgba(255,255,255,0.18) 30%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0.18) 70%)`,
-          opacity: 0.7,
-          transform: `translateX(${shinePos * 100 - 20}%) translateY(${shinePos * 40 - 8}%) rotate(-8deg)`,
-          filter: 'blur(10px)',
-          transition: 'opacity 0.2s',
+          background: `linear-gradient(135deg, 
+            rgba(255,255,255,0.1) 0%, 
+            transparent 20%, 
+            transparent 80%, 
+            rgba(255,255,255,0.05) 100%)`,
+          zIndex: 0,
         }}
       />
+    </>
+  );
+}
+
+// Demo card component to show the effect
+export function DemoCard() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 flex items-center justify-center">
+      <BackgroundParticles />
+      
+      <div className="relative max-w-md w-full">
+        {/* Card with glass effect */}
+        <div 
+          className="relative bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl p-8 shadow-2xl"
+          style={{ 
+            background: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <GlassShineAnimation />
+          
+          {/* Card content */}
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <Github className="w-8 h-8 text-white/90" />
+              <h1 className="text-2xl font-bold text-white">GitHub Profile</h1>
+            </div>
+            
+            <p className="text-white/80 mb-6 leading-relaxed">
+              Welcome to my coding portfolio. Here you'll find my latest projects, 
+              contributions, and technical expertise across various programming languages.
+            </p>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/70">Repositories</span>
+                <span className="text-white/90 font-semibold">42</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/70">Followers</span>
+                <span className="text-white/90 font-semibold">1.2k</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/70">Following</span>
+                <span className="text-white/90 font-semibold">89</span>
+              </div>
+            </div>
+            
+            <button className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg py-3 px-4 font-medium transition-all duration-200 backdrop-blur-sm">
+              View Profile
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
