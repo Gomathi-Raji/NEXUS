@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Buffer } from 'node:buffer';
 
+export const runtime = 'nodejs';
+
 // Helper: parse owner/repo from URL or raw string
 function parseRepo(input: string): { owner: string; repo: string } | null {
   const trimmed = input.trim();
@@ -215,10 +217,21 @@ export async function POST(req: NextRequest) {
     const { owner, repo: repoName } = parsed;
 
     // Basic repo metadata (also validates private access if token provided)
-    const repoMeta = await githubRequest<GitHubRepoMeta>(`/repos/${owner}/${repoName}`, githubToken);
+    let repoMeta: GitHubRepoMeta = {};
+    try {
+      repoMeta = await githubRequest<GitHubRepoMeta>(`/repos/${owner}/${repoName}`, githubToken);
+    } catch {
+      // Continue gracefully with minimal metadata; include hint in description
+      repoMeta = { description: 'Metadata unavailable (GitHub API error or permissions)', stargazers_count: undefined, language: undefined };
+    }
 
     // Collect candidate files and fetch contents
-    const candidates = await getCandidateFiles(owner, repoName, githubToken);
+    let candidates: Array<{ path: string; size?: number }> = [];
+    try {
+      candidates = await getCandidateFiles(owner, repoName, githubToken);
+    } catch {
+      candidates = [];
+    }
     const files: Array<{ path: string; content: string }> = [];
     for (const f of candidates) {
       try {
@@ -236,11 +249,14 @@ export async function POST(req: NextRequest) {
       : basePrompt;
 
     // Call Gemini server-side using env key
-    const apiKey = process.env.GEMINI_API_KEY_SECOND;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY_SECOND;
     if (!apiKey) {
-      return NextResponse.json({ error: 'Server misconfigured: GEMINI_API_KEY_SECOND missing' }, { status: 500 });
+      return NextResponse.json({ error: 'Server misconfigured: GEMINI_API_KEY (or GEMINI_API_KEY_SECOND) missing' }, { status: 500 });
     }
 
+    // Add a timeout to avoid hanging requests
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 30_000);
     const geminiResp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
       method: 'POST',
       headers: {
@@ -255,8 +271,12 @@ export async function POST(req: NextRequest) {
           temperature: 0.3,
           maxOutputTokens: 4096
         }
-      })
-    });
+      }),
+      signal: ctrl.signal
+    }).catch((err) => {
+      console.error('Gemini fetch failed:', err);
+      throw err;
+    }).finally(() => clearTimeout(timeout));
 
     if (!geminiResp.ok) {
       const text = await geminiResp.text();
@@ -264,14 +284,31 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await geminiResp.json();
-    // Extract text from Gemini response
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    if (!text) {
-      return NextResponse.json({ error: 'Empty response from Gemini' }, { status: 500 });
+    // Extract text from Gemini response (robustly join parts)
+    try {
+      const candidate = data?.candidates?.[0];
+      const parts = candidate?.content?.parts ?? [];
+      const joined = Array.isArray(parts)
+        ? parts
+            .map((p: unknown) => {
+              const obj = (p as { text?: unknown }) || null;
+              const value = obj && typeof obj === 'object' ? obj.text : undefined;
+              return typeof value === 'string' ? value : value != null ? String(value) : '';
+            })
+            .join('')
+        : '';
+      const fallback = candidate?.output_text || candidate?.text || data?.text || '';
+      const rawText = String(joined || fallback || '').trim();
+      if (!rawText) {
+        console.error('Gemini empty/unknown response shape:', JSON.stringify(data).slice(0, 1000));
+        return NextResponse.json({ error: 'Empty response from Gemini' }, { status: 500 });
+      }
+      const cleaned = normalizeMarkdown(rawText);
+      return NextResponse.json({ markdown: cleaned });
+    } catch (ex) {
+      console.error('Gemini parse error:', ex);
+      return NextResponse.json({ error: 'Failed to parse Gemini response' }, { status: 500 });
     }
-    const cleaned = normalizeMarkdown(text);
-    
-    return NextResponse.json({ markdown: cleaned });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unexpected error';
     return NextResponse.json({ error: message }, { status: 500 });

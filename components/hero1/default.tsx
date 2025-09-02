@@ -20,6 +20,7 @@ import Section from "@/components/ui/Section";
 import { BentoCrad } from "@/components/Hero/BentoCrad";
 import Features from "@/components/Hero/Features";
 import { RollingText } from "@/components/Hero/RollingText";
+import { HeroScrollDemo } from "@/components/Hero/HeroScrollDemo";
 interface HeroButtonProps {
   href: string;
   text: string;
@@ -112,6 +113,11 @@ export default function Hero({
       </div>
 
       <MagicBean />
+
+      {/* Hero Scroll Animation Section */}
+      <div className="py-16">
+        <HeroScrollDemo />
+      </div>
 
       <div>
         <Features forceDarkMode={true} />

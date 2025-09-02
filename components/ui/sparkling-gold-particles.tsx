@@ -50,6 +50,20 @@ export const SparklingGoldParticles: React.FC<SparklingGoldParticlesProps> = ({
       sparkleIntensity: number;
 
       constructor() {
+        if (!canvas) {
+          // Initialize with default values if canvas is not available
+          this.x = 0;
+          this.y = 0;
+          this.size = 1;
+          this.speedX = 0;
+          this.speedY = 0;
+          this.opacity = 0.5;
+          this.hue = 45;
+          this.saturation = 80;
+          this.lightness = 60;
+          this.sparkleIntensity = 0.5;
+          return;
+        }
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * (size === 'sm' ? 2 : size === 'md' ? 4 : 6) + 1;
@@ -63,6 +77,7 @@ export const SparklingGoldParticles: React.FC<SparklingGoldParticlesProps> = ({
       }
 
       update() {
+        if (!canvas) return;
         this.x += this.speedX;
         this.y += this.speedY;
 

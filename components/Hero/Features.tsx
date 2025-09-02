@@ -41,49 +41,32 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Your Random Idea to GitHub Repo",
       description: "Transform your creative ideas into structured GitHub repositories with AI-powered project scaffolding",
       icon: <FaRocket />,
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754477364/qvsrnneoe154uunnsy1i.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
-    },
-    {
-      id: 'analyze-repo',
-      title: "Analyze GitHub Repository",
-      description: "Deep dive into repository structure, analyze code quality, dependencies, and get comprehensive insights",
-      icon: <FaCode />,
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754496816/fczk6cbu8q4ji9aeleig.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
-    },
-    {
-      id: 'generate-readme',
-      title: "Generate a Great README",
-      description: "Paste a repo URL, analyze the codebase, and draft a polished README with live edit and preview.",
-      icon: <FaFileAlt />,
-
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754788911/tcrrmufmrctktm16cfhu.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
-    },
-    {
-      id: 'visualize-repo',
-      title: "Visualize GitHub Repository",
-      description: "Generate interactive flow diagrams and visual representations of repository architecture",
-      icon: <FaEye />,
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754494779/gm338fv7egm7afk6ap0t.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
+      videoSrc: "/videos/idea-to-repo.mp4",
+      posterSrc: "/images/idea-to-repo-poster.jpg"
     },
     {
       id: 'find-repos',
       title: "Find Best Open Source Repos to Contribute",
       description: "Discover good first issues, bounty issues, and major contributions across different programming languages",
       icon: <FaSearch />,
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754499776/hgxphhdygc4rdfkptsrx.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
+      videoSrc: "/videos/find-repos.mp4",
+      posterSrc: "/images/find-repos-poster.jpg"
     },
     {
       id: 'compare-devs',
       title: "Compare GitHub Devs and See Who Wins",
       description: "Compare GitHub profiles, analyze contribution patterns, and visualize developer statistics side by side",
       icon: <FaUsers />,
-      videoSrc: "https://res.cloudinary.com/duy8dp4tq/video/upload/v1754790105/hb98grhvl3ctchpqdhsm.mp4",
-      posterSrc: "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
+      videoSrc: "/videos/compare-devs.mp4",
+      posterSrc: "/images/compare-devs-poster.jpg"
+    },
+    {
+      id: 'generate-readme',
+      title: "Generate a Great README",
+      description: "Paste a repo URL, analyze the codebase, and draft a polished README with live edit and preview.",
+      icon: <FaFileAlt />,
+      videoSrc: "/videos/generate-readme.mp4",
+      posterSrc: "/images/generate-readme-poster.jpg"
     }
   ];
 
@@ -278,7 +261,7 @@ const Features = ({ forceDarkMode = true }) => {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-[url('https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg')] bg-cover">
+                  <div className="w-full h-full flex items-center justify-center bg-black">
                     <div className="flex items-center gap-3 text-white/80">
                       <FaFileAlt className="w-6 h-6" />
                       <span className="text-sm">Preview coming soon</span>
