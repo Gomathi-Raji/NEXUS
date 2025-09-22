@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Image from "next/image"
 import Hero from "@/components/sections/hero/default"
 import {
   SparklingGoldParticles,
@@ -85,17 +86,53 @@ const Page = () => {
           <h1 className="animate-appear from-foreground to-foreground dark:to-muted-foreground relative z-10 inline-block bg-gradient-to-r bg-clip-text text-3xl leading-tight font-semibold text-balance text-white drop-shadow-2xl sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
             <span className="inline-block align-middle">
               <PointerHighlight rectangleClassName="border-2 border-yellow-400" pointerClassName="text-yellow-400" containerClassName="inline-block align-middle">
-                <span className="font-bold text-white-400 drop-shadow-[0_0_10px_rgba(190, 111, 9, 0.88)] transform hover:scale-110 transition-all duration-300" style={{
-                  textShadow: '0 0 20px rgba(246, 168, 59, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5)',
-                  transform: 'perspective(1000px) rotateX(-10deg) rotateY(5deg)',
-                  filter: 'drop-shadow(0 8px 16px rgba(190, 111, 9, 0.88))'
-                }}>NEXUS</span>
+                <span className="font-bold text-white-400 drop-shadow-[0_0_10px_rgba(190, 111, 9, 0.88)] transform hover:scale-110 transition-all duration-300 nexus-3d-title">NEXUS</span>
               </PointerHighlight>
             </span>
           </h1>
           <p className="text-golden-400/80 text-lg md:text-xl mt-4 max-w-2xl">
             Enter a concept to discover and analyze relevant open-source projects
           </p>
+
+          {/* External badges below the heading and description */}
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 flex-wrap relative z-30 pointer-events-auto">
+            <a 
+              href="https://peerlist.io/personal_dev/project/pick-me-a" 
+              target="_blank" 
+              rel="noreferrer noopener"
+              aria-label="Open Peerlist project badge for Pick Me A"
+              title="Open Peerlist project badge for Pick Me A"
+              className="block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://peerlist.io/api/v1/projects/embed/PRJHP6L86K6DDM88MIRR866DKOAJNP?showUpvote=true&theme=dark"
+                alt="Pick Me A on Peerlist"
+                className="w-[250px] h-[54px] block"
+                width="250"
+                height="54"
+                loading="lazy"
+              />
+            </a>
+
+            <a 
+              href="https://www.producthunt.com/products/pick-me-a?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-pick%E2%80%91me%E2%80%91a" 
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Open Product Hunt badge for Pick Me A"
+              title="Open Product Hunt badge for Pick Me A"
+              className="block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105"
+            >
+              <Image 
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1011161&theme=dark&t=1756707053692" 
+                alt="Pick Me A - Discover your next favorite entertainment | Product Hunt" 
+                className="w-[250px] h-[54px] block"
+                width={250}
+                height={54}
+                loading="lazy"
+              />
+            </a>
+          </div>
         </div>
       </section>
 
@@ -109,13 +146,6 @@ const Page = () => {
             title=""
             description=""
             badge={false}
-            buttons={[
-              {
-                href: "/search",
-                text: "Search Projects",
-                variant: "default",
-              },
-            ]}
           />
         </div>
       </section>

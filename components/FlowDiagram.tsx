@@ -173,7 +173,7 @@ const FlowDiagramInner = ({
   }, []);
 
   // Compute a layered layout using a simple topological algorithm
-  const layoutElements = (baseNodes: RFNode[], baseEdges: RFEdge[]) => {
+  const layoutElements = React.useCallback((baseNodes: RFNode[], baseEdges: RFEdge[]) => {
     const levelGap = density === 'compact' ? 110 : density === 'spacious' ? 240 : 180;
     const nodeGap = density === 'compact' ? 150 : density === 'spacious' ? 280 : 210;
 
@@ -268,7 +268,7 @@ const FlowDiagramInner = ({
     });
 
     return posNodes;
-  };
+  }, [density, direction]);
 
   const createFlowElements = React.useCallback((parsedNodes: ParsedNode[], parsedEdges: ParsedEdge[]) => {
     const baseNodes: RFNode<NodeData>[] = parsedNodes.map((node) => ({
@@ -333,7 +333,7 @@ const FlowDiagramInner = ({
 
     const flowNodes = layoutElements(baseNodes, baseEdges);
     return { nodes: flowNodes, edges: baseEdges };
-  }, [animateEdges, density, direction]);
+  }, [animateEdges, density, direction, layoutElements]);
 
   useEffect(() => {
     try {
@@ -345,7 +345,7 @@ const FlowDiagramInner = ({
     } catch (error) {
       console.error('Error parsing diagram:', error);
     }
-  }, [editableChart, density, direction, animateEdges, createFlowElements, parseMermaidToFlow]);
+  }, [editableChart, density, direction, animateEdges, createFlowElements, parseMermaidToFlow, setNodes, setEdges]);
 
   useEffect(() => {
     if (chart !== editableChart) {
@@ -555,8 +555,8 @@ const FlowDiagramInner = ({
             </div>
             {/* Edge animation toggle */}
             <div className="hidden md:flex items-center gap-2 mr-2">
-              <label className="text-white/60 text-xs">Animate</label>
-              <input type="checkbox" checked={animateEdges} onChange={(e)=>setAnimateEdges(e.target.checked)} />
+              <label htmlFor="animate-edges" className="text-white/60 text-xs">Animate</label>
+              <input id="animate-edges" aria-label="Toggle animated edges" type="checkbox" checked={animateEdges} onChange={(e)=>setAnimateEdges(e.target.checked)} />
             </div>
             <Button
               variant="ghost"

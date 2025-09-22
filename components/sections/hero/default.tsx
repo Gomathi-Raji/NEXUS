@@ -35,92 +35,19 @@ const FooterLazy = dynamic(() => import("@/components/Hero/Footer"), {
 import { cn } from "@/lib/utils";
 
 import { Badge } from "../../ui/badge";
-import { Button, type ButtonProps } from "../../ui/button";
 import Glow from "../../ui/glow";
 import { Mockup, MockupFrame } from "../../ui/mockup";
 import { PointerHighlight } from "../../ui/pointer-highlight";
 import Screenshot from "../../ui/screenshot";
 import Section from "@/components/ui/Section";
 
-interface HeroButtonProps {
-  href: string;
-  text: string;
-  variant?: ButtonProps["variant"];
-  icon?: ReactNode;
-  iconRight?: ReactNode;
-}
-
 interface HeroProps {
   title?: string;
   description?: string;
   mockup?: ReactNode | false;
   badge?: ReactNode | false;
-  buttons?: HeroButtonProps[] | false;
   className?: string;
 }
-
-// Upcoming Badge Component
-const UpcomingBadge = ({ 
-  platform, 
-  href, 
-  className = "" 
-}: { 
-  platform: "Peerlist" | "Product Hunt"; 
-  href: string;
-  className?: string;
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const gradientClass = platform === "Peerlist" 
-    ? "from-golden-600 via-golden-500 to-golden-400" 
-    : "from-golden-600 via-golden-500 to-golden-400";
-  
-  const hoverGradient = platform === "Peerlist"
-    ? "hover:from-golden-500 hover:via-golden-400 hover:to-golden-300"
-    : "hover:from-golden-500 hover:via-golden-400 hover:to-golden-300";
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`NEXUS on ${platform} - Coming Soon`}
-      className={cn("block cursor-pointer transition-all duration-300", className)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className={cn(
-        "relative w-[200px] sm:w-[250px] h-12 sm:h-14 rounded-xl sm:rounded-2xl overflow-hidden",
-        "bg-gradient-to-r", gradientClass, hoverGradient,
-        "transform transition-all duration-300",
-        isHovered ? "scale-105 shadow-2xl" : "hover:scale-105"
-      )}>
-        {/* Animated background effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
-        
-        {/* Content */}
-        <div className="relative h-full flex items-center justify-center px-3 sm:px-4">
-          <div className="text-center">
-            <div className="text-white font-bold text-base sm:text-lg tracking-wide">
-              {platform}
-            </div>
-            <div className="text-white/90 text-xs font-medium mt-0.5">
-              Coming Soon
-            </div>
-          </div>
-        </div>
-        
-        {/* Shimmer effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" 
-             style={{
-               background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-               animation: 'shimmer 2s infinite linear'
-             }} 
-        />
-      </div>
-    </a>
-  );
-};
 
 export default function Hero({
   title = "NEXUS",
@@ -149,7 +76,6 @@ export default function Hero({
       </a>
     </Badge>
   ),
-  buttons = [],
   className,
 }: HeroProps) {
   // Mount gate to defer heavy components until after first paint/idle

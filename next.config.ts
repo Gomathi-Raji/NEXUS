@@ -9,7 +9,10 @@ const nextConfig = {
       'www.docker.com',
       'github.com',
       'x.com',
-      'pbs.twimg.com'
+      'pbs.twimg.com',
+      'peerlist.io',
+      'api.producthunt.com',
+      'www.producthunt.com'
       
     ],
     

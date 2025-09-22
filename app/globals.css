@@ -679,6 +679,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     0 10px 30px var(--black-900),
     0 0 20px var(--gold-900),
     inset 0 1px 0 var(--gold-900);
+  -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -761,6 +762,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 /* New luxury effects */
 .glass-effect {
   background: rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 215, 0, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -894,6 +896,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     0 0 12px var(--gold-400),
     0 0 24px var(--gold-500),
     0 0 36px var(--gold-600);
+}
+
+/* Title 3D/glow effect used on NEXUS heading */
+.nexus-3d-title {
+  text-shadow: 0 0 20px rgba(246, 168, 59, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5);
+  transform: perspective(1000px) rotateX(-10deg) rotateY(5deg);
+  filter: drop-shadow(0 8px 16px rgba(190, 111, 9, 0.88));
 }
 
 /* Golden background replacement for blue backgrounds */
@@ -1073,6 +1082,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   box-shadow: 
     0 2px 8px rgba(245, 158, 11, 0.3),
     0 0 0 1px rgba(245, 158, 11, 0.2) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 *::-moz-selection {
@@ -1108,6 +1119,7 @@ pre::selection {
   text-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.4),
     0 0 4px rgba(245, 158, 11, 0.3) !important;
+  -webkit-backdrop-filter: blur(1px) !important;
   backdrop-filter: blur(1px) !important;
   border-radius: 3px !important;
   box-shadow: 
@@ -1264,6 +1276,7 @@ h6::-moz-selection {
 /* Modern glass-morphism selection effect */
 .glass-selection::selection {
   background: rgba(245, 158, 11, 0.15) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(180%) !important;
   backdrop-filter: blur(8px) saturate(180%) !important;
   border: 1px solid rgba(245, 158, 11, 0.3) !important;
   border-radius: 4px !important;
