@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { 
   FaPlay, FaChevronRight, FaRocket, FaCode,
@@ -41,7 +42,7 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Your Random Idea to GitHub Repo",
       description: "Transform your creative ideas into structured GitHub repositories with AI-powered project scaffolding",
       icon: <FaRocket />,
-      videoSrc: "/images/hero4.jpg",
+      videoSrc: "/images/hero4.png",
       posterSrc: "/images/heroo1.png"
     },
     {
@@ -49,7 +50,7 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Find Best Open Source Repos to Contribute",
       description: "Discover good first issues, bounty issues, and major contributions across different programming languages",
       icon: <FaSearch />,
-      videoSrc: "/images/hero4.jpg",
+      videoSrc: "/images/hero4.png",
       posterSrc: "/images/hero2.png"
     },
     {
@@ -136,7 +137,7 @@ const Features = ({ forceDarkMode = true }) => {
                       />
                       <div className="relative overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm border border-white/5">
                         <div className="relative aspect-video w-full">
-                          {feature.videoSrc ? (
+                          {feature.videoSrc?.toLowerCase().endsWith('.mp4') ? (
                             <video 
                               key={feature.videoSrc}
                               className="w-full h-full object-cover"
@@ -150,7 +151,16 @@ const Features = ({ forceDarkMode = true }) => {
                               <source src={feature.videoSrc} type="video/mp4" />
                               Your browser does not support the video tag.
                             </video>
-                          ) : null}
+                          ) : (
+                            <Image
+                              src={feature.videoSrc || feature.posterSrc}
+                              alt={feature.title}
+                              fill
+                              sizes="100vw"
+                              className="object-cover"
+                              priority={false}
+                            />
+                          )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         </div>
                         <div className="p-4 bg-black/40 backdrop-blur-sm">
@@ -268,7 +278,7 @@ const Features = ({ forceDarkMode = true }) => {
               />
               <div className="relative overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm border border-white/5 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
               <div className="relative aspect-video w-full">
-                {activeFeatureData?.videoSrc ? (
+                {activeFeatureData?.videoSrc?.toLowerCase().endsWith('.mp4') ? (
                   <video 
                     key={activeFeatureData?.videoSrc}
                     ref={videoRef}
@@ -285,12 +295,14 @@ const Features = ({ forceDarkMode = true }) => {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-black">
-                    <div className="flex items-center gap-3 text-white/80">
-                      <FaFileAlt className="w-6 h-6" />
-                      <span className="text-sm">Preview coming soon</span>
-                    </div>
-                  </div>
+                  <Image
+                    src={activeFeatureData?.videoSrc || activeFeatureData?.posterSrc || '/images/hero1.png'}
+                    alt={activeFeatureData?.title || 'Preview'}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                    priority={false}
+                  />
                 )}
                 {/* Video overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
