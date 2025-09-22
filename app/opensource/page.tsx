@@ -165,7 +165,7 @@ export default function OpenSourcePage() {
   const filterOutCJKIssues = (list: GitHubIssue[]): GitHubIssue[] =>
     list.filter((issue) => !isCJKText(`${issue.title || ''} ${issue.body || ''}`));
 
-  const fetchTrendingRepos = async (selectedFilter: string, selectedLanguage: string, pageNumber: number) => {
+  const fetchTrendingRepos = React.useCallback(async (selectedFilter: string, selectedLanguage: string, pageNumber: number) => {
     try {
       setError(null);
       const key = `${selectedFilter}|${selectedLanguage}|${pageNumber}`;
@@ -206,18 +206,19 @@ export default function OpenSourcePage() {
       const apiHasMore = Boolean(searchResponse.data.has_more);
       setHasMore(apiHasMore || validRepos.length === 10);
       
-      // Update repositories based on page number (fast path, no blocking issue fetch)
+      // Update repositories based on page number using functional updates
       if (pageNumber === 1) {
         setRepositories(validRepos);
       } else {
-        // Only add new repos that aren't already in the list (by id)
-        const existingIds = new Set(repositories.map(repo => repo.id));
-        const uniqueNewRepos = validRepos.filter(repo => !existingIds.has(repo.id));
-        setRepositories(prevRepos => [...prevRepos, ...uniqueNewRepos]);
+        setRepositories(prevRepos => {
+          const existingIds = new Set(prevRepos.map(repo => repo.id));
+          const uniqueNewRepos = validRepos.filter(repo => !existingIds.has(repo.id));
+          return [...prevRepos, ...uniqueNewRepos];
+        });
       }
       
-      // Set total pages
-      setTotalPages(Math.max(pageNumber, totalPages));
+      // Set total pages with functional update
+      setTotalPages(prev => Math.max(pageNumber, prev));
       
       if (validRepos.length === 0 && pageNumber === 1) {
         setError('No repositories found with actual issues matching your criteria. Try different filters.');
@@ -235,7 +236,7 @@ export default function OpenSourcePage() {
       }
       setError(apiMsg ?? 'Failed to fetch trending repositories. Please try again later.');
     }
-  };
+  }, [issueCounts, backgroundLoadIssueCounts]);
 
   const fetchIssuesWithLabels = async (repoFullName: string, selectedFilter: string, pageNumber: number) => {
     const cacheKey = `${repoFullName}-${selectedFilter}`;
@@ -348,7 +349,7 @@ export default function OpenSourcePage() {
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = React.useCallback(async () => {
     setPage(1);
     setRepositories([]);
     setIsLoading(true);
@@ -379,7 +380,7 @@ export default function OpenSourcePage() {
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
-  };
+  }, [filter, language, fetchTrendingRepos]);
 
   const handlePageChange = async (newPage: number) => {
     if (newPage < 1 || newPage > totalPages || newPage === page || isLoadingMore) return;
@@ -473,9 +474,8 @@ export default function OpenSourcePage() {
 
   // Load initial data
   useEffect(() => {
-    handleSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    void handleSearch();
+  }, [handleSearch]);
 
   // Hide header when dialogs are open
   useEffect(() => {
@@ -619,7 +619,7 @@ export default function OpenSourcePage() {
           <div className="flex justify-end mb-4">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/0 via-amber-500/10 to-golden-500/0 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-xl"></div>
-              <Select value={sortOrder} onValueChange={setSortOrder}>
+                <Select value={sortOrder} onValueChange={setSortOrder}>
                 <SelectTrigger className="w-[180px] bg-black/30 text-white/90 border-white/20 rounded-lg backdrop-blur-xl hover:bg-black/40 hover:border-white/30 transition-all duration-300 shadow-sm">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -733,6 +733,8 @@ export default function OpenSourcePage() {
             {/* Mobile Close Button */}
             <button
               onClick={() => setShowIssues(false)}
+              aria-label="Close issues dialog"
+              title="Close"
               className="absolute top-4 right-4 z-20 sm:hidden bg-black/50 backdrop-blur-xl border border-white/20 rounded-full p-2 text-white/70 hover:text-white hover:bg-black/70 transition-all duration-300"
             >
               <X className="w-5 h-5" />
@@ -751,6 +753,8 @@ export default function OpenSourcePage() {
                         href={selectedRepo.html_url} 
                         target="_blank" 
                         rel="noopener noreferrer"
+                        aria-label="Open repository on GitHub"
+                        title="Open on GitHub"
                         className="text-white/80 hover:text-white ml-2 inline-flex items-center flex-shrink-0"
                         onClick={(e) => e.stopPropagation()}
                       >

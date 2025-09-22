@@ -102,10 +102,10 @@ export default function GlassShineAnimation() {
     let running = true;
     let lastTime = 0;
     
-    function animate(currentTime) {
+    function animate(currentTime: number) {
       if (currentTime - lastTime > 16) { // ~60fps
         setShinePos(prev => {
-          let next = prev + 0.008; // Smoother, more noticeable speed
+          const next = prev + 0.008; // Smoother, more noticeable speed
           if (next > 1.2) {
             // Add a pause before restarting
             setTimeout(() => {
@@ -119,7 +119,7 @@ export default function GlassShineAnimation() {
       }
       if (running) requestAnimationFrame(animate);
     }
-    animate();
+    requestAnimationFrame(animate);
     return () => { running = false; };
   }, []);
 
@@ -191,7 +191,7 @@ export function DemoCard() {
             </div>
             
             <p className="text-white/80 mb-6 leading-relaxed">
-              Welcome to my coding portfolio. Here you'll find my latest projects, 
+              Welcome to my coding portfolio. Here you&apos;ll find my latest projects, 
               contributions, and technical expertise across various programming languages.
             </p>
             
