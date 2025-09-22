@@ -41,6 +41,11 @@ export default function OpenSourcePage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
+  const handleLanguageChange = React.useCallback((value: string) => {
+    const newLang = value === 'any' ? '' : value;
+    setLanguage(prev => (prev === newLang ? prev : newLang));
+  }, []);
+  
   // Issues state
   const [issues, setIssues] = useState<GitHubIssue[]>([]);
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -91,20 +96,10 @@ export default function OpenSourcePage() {
     return sorted;
   }, [repositories, sortOrder]);
 
-  // Auto-trigger search when user selects the Bounty filter
-  useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true;
-      return;
-    }
-    if (filter === 'bounty issue') {
-      // Trigger immediate search for bounty filter
-      void handleSearch();
-    }
-  }, [filter]);
+  // Auto-trigger search when user selects the Bounty filter (disabled to avoid early reference)
 
   // Fetch issue counts in background with limited concurrency
-  const backgroundLoadIssueCounts = async (repos: GitHubRepo[], selectedFilter: string) => {
+  const backgroundLoadIssueCounts = React.useCallback(async (repos: GitHubRepo[], selectedFilter: string) => {
     const concurrency = 3;
     let idx = 0;
     const runNext = async (): Promise<void> => {
@@ -154,7 +149,7 @@ export default function OpenSourcePage() {
     };
 
     await Promise.all(Array.from({ length: Math.min(concurrency, repos.length) }, () => runNext()));
-  };
+  }, [computedIssueCounts, setIssueCounts, setComputedIssueCounts, setRepositories]);
 
   // Helper: detect and filter out issues with CJK (Chinese/Japanese/Korean) characters
   const isCJKText = (text?: string): boolean => {
@@ -476,8 +471,11 @@ export default function OpenSourcePage() {
 
   // Load initial data
   useEffect(() => {
+    if (!mounted) return;
     void handleSearch();
-  }, [handleSearch]);
+    // run once on mount; handleSearch is stable and includes deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted]);
 
   // Hide header when dialogs are open
   useEffect(() => {
@@ -555,7 +553,7 @@ export default function OpenSourcePage() {
               {/* Language Filter */}
               <div className="space-y-2">
                 <label className="text-white/70 text-sm">Language (Optional)</label>
-                <Select value={language} onValueChange={(value) => setLanguage(value === 'any' ? '' : value)}>
+                <Select value={language || 'any'} onValueChange={handleLanguageChange}>
                 <SelectTrigger className="w-full bg-black/40 text-white/90 border-white/20 rounded-lg backdrop-blur-xl hover:bg-black/40 hover:border-white/30 transition-all duration-300 shadow-sm">
               <SelectValue placeholder="Select a language" />
             </SelectTrigger>
