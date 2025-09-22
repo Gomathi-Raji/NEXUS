@@ -26,6 +26,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import LiquidLoader from '@/components/LiquidLoader';
 
 export default function OpenSourcePage() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   // Timeout message state
   const [showTimeoutMessage, setShowTimeoutMessage] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -490,6 +492,10 @@ export default function OpenSourcePage() {
       document.body.classList.remove('dialog-open');
     };
   }, [showIssues, showExplanation]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto p-4 md:p-8 pt-24 md:pt-32">
