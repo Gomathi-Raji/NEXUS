@@ -17,7 +17,8 @@ const nextConfig = {
     ],
     
   },
-  webpack: (config) => {
+  // Annotate config to avoid TS implicit any error during Netlify build
+  webpack: (config: any) => {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
