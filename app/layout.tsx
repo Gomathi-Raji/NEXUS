@@ -36,9 +36,15 @@ export default function RootLayout({
             {children}
           </main>
         </div>
-        <Analytics />
-        <SpeedInsights />
-        <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
+        {process.env.NEXT_PUBLIC_VERCEL === '1' && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
+        {process.env.NEXT_PUBLIC_SIMPLE_ANALYTICS === '1' && (
+          <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
+        )}
       </body>
     </html>
   );
