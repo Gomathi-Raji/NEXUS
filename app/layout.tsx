@@ -5,11 +5,20 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
-import LiquidGlassHeader from "@/components/LiquidGlassHeader";
 
-const inter = Inter({ subsets: ["latin"] });
+// Lazy load header for better initial page load
+const LiquidGlassHeader = dynamic(() => import("@/components/LiquidGlassHeader"), {
+  ssr: true,
+  loading: () => <div className="h-16 bg-transparent" />,
+});
+
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap', // Optimize font loading
+});
 
 export const metadata: Metadata = {
   title: "NEXUS",

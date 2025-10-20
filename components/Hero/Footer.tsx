@@ -29,7 +29,7 @@ const Footer = () => {
   return (
     <footer className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent">
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-md p-8 sm:p-10 shadow-[0_0_60px_-20px_rgba(99,102,241,0.25)]">
+        <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-md p-8 sm:p-10 shadow-[0_0_60px_-20px_rgba(255,215,0,0.25)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center">
           {/* Text Section with improved typography */}
           <div className="relative flex flex-col justify-center h-full space-y-8">
@@ -77,9 +77,9 @@ const Footer = () => {
           
           {/* Enhanced Profile Section */}
           <div className="text-center lg:text-right">
-            <div className="relative group rounded-3xl border border-white/10 p-3 transition-all duration-700 hover:border-white/25 hover:shadow-2xl hover:shadow-blue-500/10">
+            <div className="relative group rounded-3xl border border-white/10 p-3 transition-all duration-700 hover:border-white/25 hover:shadow-2xl hover:shadow-golden-500/10">
               {/* Multi-layer hover effects */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-cyan-500/10 to-yellow-400/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-golden-600/10 via-yellow-500/10 to-amber-400/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl"></div>
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="relative flex flex-col lg:flex-row items-center gap-8 overflow-hidden rounded-2xl bg-black/60 backdrop-blur-md p-8 border border-white/8 transition-all duration-500 group-hover:bg-black/40">
@@ -87,7 +87,7 @@ const Footer = () => {
                 <div className="relative flex-shrink-0 order-2 lg:order-1">
                   <div className="relative w-24 h-24 lg:w-28 lg:h-28">
                     {/* Animated border */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/50 via-cyan-400/50 to-yellow-400/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-spin-slow blur-sm"></div>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-golden-400/50 via-yellow-400/50 to-amber-400/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-spin-slow blur-sm"></div>
                     
                     <div className="relative w-full h-full rounded-2xl border border-white/25 bg-white/10 p-1.5 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:scale-105 group-hover:border-white/40">
                       <img 
@@ -107,7 +107,7 @@ const Footer = () => {
                   <h3 className="relative font-sans text-2xl lg:text-3xl font-semibold text-white leading-tight transition-all duration-300 group-hover:text-white/95">
                     <span className="relative z-10">Created by DINESH S</span>
                     <div className="absolute inset-0 blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-500">
-                      <span className="text-blue-300">Created by DINESH S </span>
+                      <span className="text-golden-300">Created by DINESH S </span>
                     </div>
                   </h3>
                   <p className="font-sans text-lg text-white/75 transition-colors duration-300 group-hover:text-white/85">

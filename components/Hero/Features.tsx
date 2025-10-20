@@ -40,15 +40,15 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Your Random Idea to GitHub Repo",
       description: "Transform your creative ideas into structured GitHub repositories with AI-powered project scaffolding",
       icon: <FaRocket />,
-      videoSrc: "/images/hero4.png",
-      posterSrc: "/images/heroo1.png"
+      videoSrc: "/images/hero1.png",
+      posterSrc: "/images/hero1.png"
     },
     {
       id: 'find-repos',
       title: "Find Best Open Source Repos to Contribute",
       description: "Discover good first issues, bounty issues, and major contributions across different programming languages",
       icon: <FaSearch />,
-      videoSrc: "/images/hero4.png",
+      videoSrc: "/images/hero2.png",
       posterSrc: "/images/hero2.png"
     },
     {

@@ -3,6 +3,7 @@
 import { ArrowRightIcon } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { Testimonials } from "@/components/Hero/Testimonials";
 import GitHubStarBadge from "@/components/Hero/GitHubStarBadge";
 
@@ -53,14 +54,14 @@ export default function Hero({
   title = "NEXUS",
   description = "Enter a concept to discover and analyze relevant open-source projects.",
   mockup = (
-  <div className="w-full flex">
+  <div className="w-full flex px-4 sm:px-0">
     <Screenshot
       srcLight="/GithubImages/search.png"
       srcDark="/GithubImages/search.png"
       alt="Search UI app screenshot"
       width={1920}
       height={1080}
-      className="w-full rounded-2xl shadow-2xl border border-border/20 object-contain"
+      className="w-full rounded-xl sm:rounded-xl md:rounded-2xl shadow-2xl border border-border/30 object-contain"
     />
   </div>
 ),
@@ -154,25 +155,25 @@ export default function Hero({
           <GitHubStarBadge repoFullName="itzdineshx/NEXUS" compact />
         </div>
         
-        <div className="w-full flex flex-col gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-16">
-          <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-8 text-center px-4 sm:px-6 md:px-8">
+        <div className="w-full flex flex-col gap-8 sm:gap-8 md:gap-10 lg:gap-12 pt-8 sm:pt-10 md:pt-12 lg:pt-16">
+          <div className="flex flex-col items-center gap-6 sm:gap-4 md:gap-6 lg:gap-8 text-center px-6 sm:px-6 md:px-8 lg:px-8">
             {badge !== false && (
-              <div className="scale-75 sm:scale-90 md:scale-100">
+              <div className="scale-90 sm:scale-90 md:scale-100">
                 {badge}
               </div>
             )}
             
-            <h1 className="animate-appear from-foreground to-foreground dark:to-muted-foreground relative z-10 inline-block bg-gradient-to-r bg-clip-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight font-semibold text-balance text-white drop-shadow-2xl">
+            <h1 className="animate-appear from-foreground to-foreground dark:to-muted-foreground relative z-10 inline-block bg-gradient-to-r bg-clip-text text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl leading-tight font-bold text-balance text-white drop-shadow-2xl">
               {/* Golden sparkle effect behind title - responsive sizing */}
-              <div className="absolute -inset-2 sm:-inset-3 md:-inset-4 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.1),transparent_70%)] blur-xl sm:blur-2xl -z-10 rounded-full" />
+              <div className="absolute -inset-3 sm:-inset-3 md:-inset-4 lg:-inset-4 bg-[radial-gradient(circle_at_center,rgba(255,215,0,0.15),transparent_70%)] blur-xl sm:blur-xl md:blur-2xl -z-10 rounded-full" />
               <span className="inline-block align-middle">
                 <PointerHighlight 
-                  rectangleClassName="border border-golden-400 sm:border-2" 
+                  rectangleClassName="border-2 border-golden-400" 
                   pointerClassName="text-golden-400" 
                   containerClassName="inline-block align-middle"
                 >
                   <span 
-                    className="font-bold text-white drop-shadow-[0_0_8px_rgba(255,215,0,0.5)] sm:drop-shadow-[0_0_10px_rgba(255,215,0,0.5)] transform hover:scale-110 transition-all duration-300" 
+                    className="font-bold text-white drop-shadow-[0_0_10px_rgba(255,215,0,0.6)] sm:drop-shadow-[0_0_10px_rgba(255,215,0,0.6)] md:drop-shadow-[0_0_12px_rgba(255,215,0,0.6)] transform hover:scale-110 transition-all duration-300" 
                     style={{
                       textShadow: '0 0 15px rgba(255, 215, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.5)',
                       transform: 'perspective(1000px) rotateX(-8deg) rotateY(3deg)',
@@ -185,37 +186,37 @@ export default function Hero({
               </span>
             </h1>
             
-            <div className="text-sm sm:text-base md:text-lg lg:text-xl animate-appear text-muted-foreground relative z-10 max-w-[300px] sm:max-w-[500px] md:max-w-[600px] lg:max-w-[740px] font-medium text-balance opacity-0 delay-100 px-2 sm:px-4 md:px-0">
+            <div className="text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl animate-appear text-muted-foreground relative z-10 max-w-[90%] sm:max-w-[400px] md:max-w-[550px] lg:max-w-[650px] xl:max-w-[740px] font-medium text-balance opacity-0 delay-100 leading-relaxed">
               {/* Golden sparkle dots around description - responsive positioning */}
-              <div className="absolute -left-3 sm:-left-4 md:-left-6 -top-1 sm:-top-2 w-2 h-2 sm:w-3 sm:h-3 bg-[radial-gradient(circle,rgba(255,215,0,0.6),transparent_70%)] rounded-full animate-pulse" />
-              <div className="absolute -right-3 sm:-right-4 md:-right-6 -bottom-1 sm:-bottom-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[radial-gradient(circle,rgba(218,165,32,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-              <div className="absolute -left-4 sm:-left-6 md:-left-8 top-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[radial-gradient(circle,rgba(205,127,50,0.4),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+              <div className="absolute -left-3 sm:-left-4 md:-left-5 lg:-left-6 -top-1 sm:-top-1 md:-top-2 w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-[radial-gradient(circle,rgba(255,215,0,0.6),transparent_70%)] rounded-full animate-pulse" />
+              <div className="absolute -right-3 sm:-right-4 md:-right-5 lg:-right-6 -bottom-1 sm:-bottom-1 md:-bottom-2 w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 bg-[radial-gradient(circle,rgba(218,165,32,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+              <div className="absolute -left-4 sm:-left-5 md:-left-6 lg:-left-8 top-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 bg-[radial-gradient(circle,rgba(205,127,50,0.4),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
               {description}
             </div>
             
             {mockup !== false && (
-              <div className="relative w-full pt-3 sm:pt-4 md:pt-6 pb-3 sm:pb-4 md:pb-6 px-0">
+              <div className="relative w-full pt-2 sm:pt-2 md:pt-4 lg:pt-2 pb-4 sm:pb-4 md:pb-6 lg:pb-2 px-0">
                 {/* Golden sparkle effects around mockup - responsive sizing and positioning */}
-                <div className="absolute -left-4 sm:-left-6 md:-left-8 top-1/2 w-2 sm:w-3 md:w-4 h-2 sm:h-3 md:h-4 bg-[radial-gradient(circle,rgba(255,215,0,0.4),transparent_70%)] rounded-full animate-pulse" />
-                <div className="absolute -right-4 sm:-right-6 md:-right-8 top-1/2 w-2 sm:w-2.5 md:w-3 h-2 sm:h-2.5 md:h-3 bg-[radial-gradient(circle,rgba(218,165,32,0.3),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
-                <div className="absolute left-1/2 -top-3 sm:-top-4 md:-top-6 w-1.5 sm:w-2 md:w-2 h-1.5 sm:h-2 md:h-2 bg-[radial-gradient(circle,rgba(205,127,50,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1.2s' }} />
+                <div className="absolute -left-3 sm:-left-4 md:-left-6 lg:-left-8 top-1/2 w-2 sm:w-2.5 md:w-3 lg:w-4 h-2 sm:h-2.5 md:h-3 lg:h-4 bg-[radial-gradient(circle,rgba(255,215,0,0.4),transparent_70%)] rounded-full animate-pulse" />
+                <div className="absolute -right-3 sm:-right-4 md:-right-6 lg:-right-8 top-1/2 w-2 sm:w-2.5 md:w-3 lg:w-3.5 h-2 sm:h-2.5 md:h-3 lg:h-3.5 bg-[radial-gradient(circle,rgba(218,165,32,0.3),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
+                <div className="absolute left-1/2 -top-2 sm:-top-3 md:-top-4 lg:-top-6 w-1.5 sm:w-2 md:w-2.5 h-1.5 sm:h-2 md:h-2.5 bg-[radial-gradient(circle,rgba(205,127,50,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1.2s' }} />
                 
-                <a href="/search" className="block w-full">
+                <Link href="/search" className="block w-full" prefetch={true}>
                   <MockupFrame
                     className="animate-appear opacity-0 delay-700 w-full"
                     size="small"
                   >
                     <Mockup
                       type="responsive"
-                      className="bg-background/90 w-full rounded-lg sm:rounded-xl border-0"
+                      className="bg-background/95 w-full rounded-xl sm:rounded-xl md:rounded-2xl border-0 shadow-2xl"
                     >
                       {mockup}
                     </Mockup>
                   </MockupFrame>
-                </a>
+                </Link>
                 <Glow
                   variant="top"
-                  className="animate-appear-zoom opacity-0 delay-1000 scale-75 sm:scale-90 md:scale-100"
+                  className="animate-appear-zoom opacity-0 delay-1000 scale-75 sm:scale-80 md:scale-90 lg:scale-100"
                 />
               </div>
             )}
