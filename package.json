@@ -24,9 +24,6 @@
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.2.7",
-    "@react-three/drei": "^10.6.1",
-    "@react-three/fiber": "^9.0.0-alpha.8",
-    "@splinetool/react-spline": "^4.1.0",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.21.3",
     "@tsparticles/engine": "^3.9.1",
@@ -67,7 +64,6 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.6.0",
     "tailwind-scrollbar-hide": "^4.0.0",
-    "three": "^0.179.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -79,7 +75,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@types/three": "^0.179.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",

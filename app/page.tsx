@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import Image from "next/image"
 import Hero from "@/components/sections/hero/default"
 import {
@@ -10,40 +10,6 @@ import {
 } from "@/components/ui/sparkling-gold-particles"
 import { PointerHighlight } from "@/components/ui/pointer-highlight"
 
-// Lazy load Spline
-const Spline = React.lazy(() => import("@splinetool/react-spline"))
-
-// Error boundary for Spline
-const SplineErrorBoundary = ({ children }: { children: React.ReactNode }) => {
-  const [hasError, setHasError] = useState(false)
-
-  useEffect(() => {
-    const handleError = (error: ErrorEvent) => {
-      console.error("Spline Error:", error)
-      setHasError(true)
-    }
-
-    window.addEventListener("error", handleError)
-    return () => window.removeEventListener("error", handleError)
-  }, [])
-
-  if (hasError) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-golden-900/20 via-amber-900/10 to-bronze-900/20">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 text-amber-400 text-4xl">⚠️</div>
-          <p className="text-amber-300 text-lg font-medium">3D Scene Error</p>
-          <p className="text-amber-400/70 text-sm mt-2">
-            Failed to load Spline component
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  return children
-}
-
 const Page = () => {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -52,33 +18,15 @@ const Page = () => {
       <FloatingGoldenOrbs />
       <GoldenSparkleTrail />
 
-      {/* Fullscreen Hero Cover with Spline - Reduced height for more immersive flow */}
+      {/* Fullscreen Hero Cover - Optimized without 3D element */}
       <section className="relative w-full h-screen z-10 overflow-hidden">
-        {/* Spline Background */}
-        <div className="absolute inset-0">
-          <SplineErrorBoundary>
-            <React.Suspense
-              fallback={
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-golden-900/20 via-amber-900/10 to-bronze-900/20">
-                  <div className="text-center">
-                    <div className="w-20 h-20 mx-auto mb-6 border-4 border-golden-500/50 border-t-golden-400 rounded-full animate-spin"></div>
-                  </div>
-                </div>
-              }
-            >
-              <Spline
-                scene="https://prod.spline.design/6-dRuKzCuWJc2rzT/scene.splinecode"
-                className="w-full h-full"
-                style={{
-                  position: 'relative',
-                  zIndex: 1
-                }}
-              />
-            </React.Suspense>
-          </SplineErrorBoundary>
+        {/* Elegant gradient background instead of Spline */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-amber-950/20 to-black">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(180,83,9,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
         </div>
 
-        {/* Lighter gradient overlay for better integration */}
+        {/* Gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 z-10" />
 
         {/* Centered Title - Positioned higher for better flow */}

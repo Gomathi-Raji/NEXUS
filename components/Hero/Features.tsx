@@ -14,9 +14,7 @@ import { GoodText1 } from './GoodText';
 
 const Features = ({ forceDarkMode = true }) => {
   const [activeFeature, setActiveFeature] = useState('idea-to-repo');
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const videoRef = useRef(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Compare GitHub Devs and See Who Wins",
       description: "Compare GitHub profiles, analyze contribution patterns, and visualize developer statistics side by side",
       icon: <FaUsers />,
-      videoSrc: "/videos/compare-devs.mp4",
+      videoSrc: "/images/hero3.png",
       posterSrc: "/images/hero3.png"
     },
     {
@@ -66,14 +64,13 @@ const Features = ({ forceDarkMode = true }) => {
       title: "Generate a Great README",
       description: "Paste a repo URL, analyze the codebase, and draft a polished README with live edit and preview.",
       icon: <FaFileAlt />,
-      videoSrc: "/videos/generate-readme.mp4",
+      videoSrc: "/images/hero4.png",
       posterSrc: "/images/hero4.png"
     }
   ];
 
   const handleFeatureClick = (id: string) => {
     setActiveFeature(id);
-    setVideoLoaded(false);
   };
 
   const activeFeatureData = premiumFeatures.find(f => f.id === activeFeature);
@@ -137,30 +134,14 @@ const Features = ({ forceDarkMode = true }) => {
                       />
                       <div className="relative overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm border border-white/5">
                         <div className="relative aspect-video w-full">
-                          {feature.videoSrc?.toLowerCase().endsWith('.mp4') ? (
-                            <video 
-                              key={feature.videoSrc}
-                              className="w-full h-full object-cover"
-                              poster={feature.posterSrc}
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="auto"
-                            >
-                              <source src={feature.videoSrc} type="video/mp4" />
-                              Your browser does not support the video tag.
-                            </video>
-                          ) : (
-                            <Image
-                              src={feature.videoSrc || feature.posterSrc}
-                              alt={feature.title}
-                              fill
-                              sizes="100vw"
-                              className="object-cover"
-                              priority={false}
-                            />
-                          )}
+                          <Image
+                            src={feature.videoSrc || feature.posterSrc}
+                            alt={feature.title}
+                            fill
+                            sizes="100vw"
+                            className="object-cover"
+                            priority={false}
+                          />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         </div>
                         <div className="p-4 bg-black/40 backdrop-blur-sm">
@@ -278,32 +259,14 @@ const Features = ({ forceDarkMode = true }) => {
               />
               <div className="relative overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm border border-white/5 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
               <div className="relative aspect-video w-full">
-                {activeFeatureData?.videoSrc?.toLowerCase().endsWith('.mp4') ? (
-                  <video 
-                    key={activeFeatureData?.videoSrc}
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    poster={activeFeatureData?.posterSrc}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    onLoadedData={() => setVideoLoaded(true)}
-                  >
-                    <source src={activeFeatureData?.videoSrc} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <Image
-                    src={activeFeatureData?.videoSrc || activeFeatureData?.posterSrc || '/images/hero1.png'}
-                    alt={activeFeatureData?.title || 'Preview'}
-                    fill
-                    sizes="100vw"
-                    className="object-cover"
-                    priority={false}
-                  />
-                )}
+                <Image
+                  src={activeFeatureData?.videoSrc || activeFeatureData?.posterSrc || '/images/hero1.png'}
+                  alt={activeFeatureData?.title || 'Preview'}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                  priority={false}
+                />
                 {/* Video overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               </div>
