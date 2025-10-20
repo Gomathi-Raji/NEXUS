@@ -1,0 +1,28 @@
+/* Language color indicators */
+.language-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+.lang-javascript { background-color: #f1e05a; }
+.lang-typescript { background-color: #3178c6; }
+.lang-python { background-color: #3572A5; }
+.lang-java { background-color: #b07219; }
+.lang-go { background-color: #00ADD8; }
+.lang-rust { background-color: #dea584; }
+.lang-cplusplus { background-color: #f34b7d; }
+.lang-c { background-color: #555555; }
+.lang-csharp { background-color: #178600; }
+.lang-php { background-color: #4F5D95; }
+.lang-ruby { background-color: #701516; }
+.lang-swift { background-color: #ffac45; }
+.lang-kotlin { background-color: #A97BFF; }
+.lang-dart { background-color: #00B4AB; }
+.lang-scala { background-color: #c22d40; }
+.lang-r { background-color: #198CE7; }
+.lang-shell { background-color: #89e051; }
+.lang-vue { background-color: #41b883; }
+.lang-html { background-color: #e34c26; }
+.lang-css { background-color: #563d7c; }
+.lang-default { background-color: #858585; }

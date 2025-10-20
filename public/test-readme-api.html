@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test README Generator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .container {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            color: #fff;
+            font-family: monospace;
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #0051cc;
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        #result {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #1a4d1a;
+            border: 1px solid #2d7a2d;
+        }
+        .error {
+            background: #4d1a1a;
+            border: 1px solid #7a2d2d;
+        }
+        .loading {
+            background: #4d4d1a;
+            border: 1px solid #7a7a2d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Test README Generator API</h1>
+        
+        <div>
+            <label for="repo">GitHub Repository (owner/repo or URL):</label>
+            <input 
+                type="text" 
+                id="repo" 
+                placeholder="facebook/react or https://github.com/vercel/next.js"
+                value="vercel/next.js"
+            >
+        </div>
+
+        <div>
+            <label for="token">GitHub Token (optional, for private repos):</label>
+            <input 
+                type="password" 
+                id="token" 
+                placeholder="ghp_xxxxxxxxxxxx (optional)"
+            >
+        </div>
+
+        <div>
+            <label for="notes">Additional Notes (optional):</label>
+            <textarea 
+                id="notes" 
+                rows="3" 
+                placeholder="E.g., Focus on frontend features, skip backend details..."
+            ></textarea>
+        </div>
+
+        <button id="generateBtn" onclick="generateReadme()">Generate README</button>
+        <button onclick="clearResult()">Clear</button>
+
+        <div id="status"></div>
+    </div>
+
+    <div class="container">
+        <h2>Result:</h2>
+        <div id="result">Click "Generate README" to start...</div>
+    </div>
+
+    <script>
+        async function generateReadme() {
+            const repo = document.getElementById('repo').value.trim();
+            const token = document.getElementById('token').value.trim();
+            const notes = document.getElementById('notes').value.trim();
+            const statusDiv = document.getElementById('status');
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('generateBtn');
+
+            if (!repo) {
+                statusDiv.innerHTML = '<div class="error">❌ Please enter a repository</div>';
+                return;
+            }
+
+            // Show loading state
+            btn.disabled = true;
+            statusDiv.innerHTML = '<div class="loading">⏳ Generating README... (this may take 30-60 seconds)</div>';
+            resultDiv.textContent = 'Processing...';
+
+            const startTime = Date.now();
+
+            try {
+                const response = await fetch('/api/generate-readme', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        repo: repo,
+                        githubToken: token || undefined,
+                        userNotes: notes || undefined
+                    })
+                });
+
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                const data = await response.json();
+
+                if (response.ok) {
+                    statusDiv.innerHTML = `<div class="success">✅ Success! Generated in ${duration}s</div>`;
+                    resultDiv.textContent = data.markdown;
+                    
+                    // Show character count
+                    const charCount = data.markdown.length;
+                    statusDiv.innerHTML += `<div class="success">📊 README size: ${charCount} characters (${Math.round(charCount/1024)}KB)</div>`;
+                } else {
+                    statusDiv.innerHTML = `<div class="error">❌ Error ${response.status}: ${data.error}</div>`;
+                    resultDiv.textContent = JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+                statusDiv.innerHTML = `<div class="error">❌ Request failed after ${duration}s: ${error.message}</div>`;
+                resultDiv.textContent = error.stack || error.toString();
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function clearResult() {
+            document.getElementById('result').textContent = 'Click "Generate README" to start...';
+            document.getElementById('status').innerHTML = '';
+        }
+
+        // Allow Enter key in repo input
+        document.getElementById('repo').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') generateReadme();
+        });
+    </script>
+</body>
+</html>

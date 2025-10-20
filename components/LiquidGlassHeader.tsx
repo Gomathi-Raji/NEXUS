@@ -5,10 +5,11 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Menu, X, Home, Search, BarChart3, Eye, Github, Zap, Code } from 'lucide-react';
+import { Menu, X, Home, Search, BarChart3, Eye, Github, Zap, Code, TrendingUp } from 'lucide-react';
 
 const navItems = [
   { href: '/search', icon: Search, label: 'Search' },
+  { href: '/trending', icon: TrendingUp, label: 'Trends' },
   { href: '/opensource', icon: Code, label: 'Open Source' },
   // { href: '/analyze', icon: BarChart3, label: 'Analyze' },
   { href: '/compare', icon: Zap, label: 'Compare' },

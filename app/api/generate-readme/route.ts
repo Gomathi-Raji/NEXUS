@@ -121,6 +121,10 @@ async function getFileContent(owner: string, repo: string, path: string, token?:
 // Normalize generated Markdown to be clean GitHub-flavored Markdown (no stray HTML, proper spacing)
 function normalizeMarkdown(input: string): string {
   let s = input || '';
+  
+  // Remove any markdown code fence markers that wrap the entire output
+  s = s.replace(/^```markdown\s*\n?/i, '').replace(/\n?```\s*$/i, '');
+  
   // Convert HTML headings to MD
   s = s.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/gi, (_, lvl: string, text: string) => {
     const hashes = '#'.repeat(Number(lvl));
@@ -128,8 +132,11 @@ function normalizeMarkdown(input: string): string {
   });
   // Drop simple wrapper divs and center blocks
   s = s.replace(/<div[^>]*>\s*/gi, '\n').replace(/\s*<\/div>/gi, '\n');
+  s = s.replace(/<center[^>]*>\s*/gi, '\n').replace(/\s*<\/center>/gi, '\n');
   // <br> -> newline
   s = s.replace(/<br\s*\/?>(\s*)/gi, '\n');
+  // Remove <p> tags
+  s = s.replace(/<\/?p[^>]*>/gi, '\n');
   // Ensure space after list markers
   s = s.replace(/^(\s*)([-*+])(\S)/gm, '$1$2 $3');
   // Ensure blank lines before common blocks
@@ -142,13 +149,14 @@ function normalizeMarkdown(input: string): string {
   s = s.replace(/\n{3,}/g, '\n\n');
   // Standardize code fences (```lang) and ensure isolated lines
   s = s
-    .replace(/^[ \t]*```[ \t]*([a-zA-Z0-9_-]+)?[ \t]*$/gm, (m, lang) => `\n\n\
-\`\`\`${lang ? lang.trim() : ''}\n`) // open fence
+    .replace(/^[ \t]*```[ \t]*([a-zA-Z0-9_-]+)?[ \t]*$/gm, (m, lang) => `\n\n\`\`\`${lang ? lang.trim() : ''}\n`) // open fence
     .replace(/^[ \t]*\`\`\`[ \t]*$/gm, '```') // trim stray spaces on closing
     .replace(/\n\n\n+/g, '\n\n');
 
-  // Fix shields-style badges accidentally written as [[Label]](url)
+  // Fix shields-style badges: ensure proper format and spacing
   s = s.replace(/\[\[[^\]]+\]\]\((https?:\/\/img\.shields\.io\/[^)]+)\)/g, '![]($1)');
+  // Ensure badges are on separate lines for better visibility  
+  s = s.replace(/(!\[[^\]]*\]\([^\)]+\))(\s*)(!\[[^\]]*\]\([^\)]+\))/g, '$1\n$3');
   // Also convert [![alt](img)](link) preserved; no change needed
   // Merge consecutive badge image lines into a single line
   s = s.replace(/(?:^!\[[^\]]*\]\([^\)]+\)\s*\n){2,}/gm, (block) => block.trim().split(/\n+/).join(' ')+"\n\n");
@@ -198,15 +206,213 @@ function normalizeMarkdown(input: string): string {
 }
 
 function buildPrompt(repoFullName: string, repoMeta: GitHubRepoMeta, files: Array<{ path: string; content: string }>) {
+  const [owner, repoName] = repoFullName.split('/');
   const metaSnippet = `Repository: ${repoFullName}\nDescription: ${repoMeta?.description ?? ''}\nStars: ${repoMeta?.stargazers_count ?? 'N/A'}\nLanguage: ${repoMeta?.language ?? 'N/A'}`;
   const fileSummaries = files.map(f => `---\nPath: ${f.path}\n\n${f.content.substring(0, 4000)}`).join('\n\n');
 
-  return `You are an expert open-source maintainer. Generate a comprehensive, professional README.md for the repository below.\n\nStrict formatting rules:\n- Output must be GitHub-Flavored Markdown (GFM) only.\n- Do NOT use raw HTML tags (no <div>, <h3>, <center>, etc.).\n- Ensure proper spacing:\n  - Exactly one blank line between sections and before/after lists, code blocks, and tables.\n  - A space after list markers (-, *, +).\n- Use fenced code blocks with language hints.\n\nContent requirements (use this exact section order unless user notes say otherwise):\n1. Title and short description\n2. Badges (build, license, package, coverage if applicable)\n3. Table of Contents\n4. Key Features (bulleted)\n5. Architecture Overview (1–2 paragraphs + optional diagram code block)\n6. Tech Stack (as a table)\n7. Getting Started (installation, prerequisites)\n8. Configuration (as a table of env vars)\n9. Usage (code examples)\n10. Project Structure (tree in a fenced code block)\n11. Scripts (as a table of npm/pnpm/yarn scripts, if relevant)\n12. Roadmap (checkbox task list)\n13. Contributing\n14. Testing\n15. License\n16. Acknowledgements\n\nTables — use these schemas exactly and include a blank line before and after each table:\n- Tech Stack:\n\n| Area | Tool | Version |\n|---|---|---|\n| Frontend | Next.js | 15.x |\n\n- Configuration:\n\n| ENV | Description | Example |\n|---|---|---|\n| NEXT_PUBLIC_API | Public API base URL | https://api.example.com |\n\n- Scripts (skip if not applicable):\n\n| Command | Description |\n|---|---|\n| dev | Start local dev server |\n\nRoadmap format (example):\n\n- [ ] Improve documentation\n- [ ] Add e2e tests\n- [ ] Publish Docker image\n\nPrefer concise, actionable content. Derive details from the provided files and metadata. If something is unknown, suggest sensible defaults and placeholders.\n\n${metaSnippet}\n\nProject files (samples):\n${fileSummaries}`;
+  return `You are an expert open-source documentation specialist with deep knowledge of GitHub best practices and modern README standards. Generate a stunning, comprehensive, and professional README.md for the repository below.
+
+🎯 **CRITICAL FORMATTING RULES:**
+- Output ONLY GitHub-Flavored Markdown (GFM)
+- ABSOLUTELY NO HTML tags (<div>, <h3>, <center>, <br>, <p>, etc.)
+- Use proper spacing: ONE blank line between sections, before/after lists, code blocks, and tables
+- Space after list markers (-, *, +)
+- Use fenced code blocks with language hints (bash, typescript, json, etc.)
+- All badges MUST use shields.io format: ![Label](https://img.shields.io/...)
+
+📋 **REQUIRED STRUCTURE (in this exact order):**
+
+## 1. Header Section
+- Repository title with emoji (choose relevant emoji)
+- Compelling one-line tagline
+- Comprehensive badge collection (create these badges using shields.io):
+  * GitHub stats: ![Stars](https://img.shields.io/github/stars/${owner}/${repoName}?style=for-the-badge&logo=github)
+  * ![Forks](https://img.shields.io/github/forks/${owner}/${repoName}?style=for-the-badge&logo=github)
+  * ![Issues](https://img.shields.io/github/issues/${owner}/${repoName}?style=for-the-badge&logo=github)
+  * ![Pull Requests](https://img.shields.io/github/issues-pr/${owner}/${repoName}?style=for-the-badge&logo=github)
+  * License badge (detect from files or use MIT as default)
+  * Language badge: ![Language](https://img.shields.io/github/languages/top/${owner}/${repoName}?style=for-the-badge)
+  * Last commit: ![Last Commit](https://img.shields.io/github/last-commit/${owner}/${repoName}?style=for-the-badge&logo=github)
+  * Package manager badges (npm, yarn, pnpm if applicable)
+  * Technology-specific badges (React, Next.js, TypeScript, Python, etc. based on detected tech)
+  * Build/CI status (if workflows detected)
+  * Code quality badges (CodeClimate, Codecov if applicable)
+- ALL badges on separate lines for better visibility
+
+## 2. Overview Section
+- Engaging 2-3 sentence description of what the project does
+- Key problem it solves
+- Target audience/use cases
+
+## 3. ✨ Key Features
+- Bulleted list with emojis
+- Highlight 5-8 main features
+- Be specific and benefit-focused
+
+## 4. 🎯 Demo / Screenshots
+- Suggest demo section with placeholder
+- Mention live demo URL structure if it's a web app
+
+## 5. 📑 Table of Contents
+- Linked navigation to all major sections
+- Use proper markdown links
+
+## 6. 🏗️ Architecture Overview
+- 2-3 paragraphs explaining high-level architecture
+- If complex, include mermaid diagram in code block
+- Explain data flow, component structure
+
+## 7. 🛠️ Tech Stack
+Create a comprehensive table:
+
+| Category | Technologies | Purpose |
+|----------|-------------|---------|
+| Frontend | React, Next.js | UI Framework |
+| Backend | Node.js, Express | Server |
+| Database | PostgreSQL | Data Storage |
+| Deployment | Vercel, Docker | Hosting |
+
+## 8. 📋 Prerequisites
+- List required software/tools
+- Include version requirements
+- Link to installation guides
+
+## 9. 🚀 Getting Started
+
+### Installation
+Step-by-step commands in code blocks:
+\`\`\`bash
+# Clone the repository
+git clone https://github.com/${owner}/${repoName}.git
+
+# Navigate to directory
+cd ${repoName}
+
+# Install dependencies
+npm install
+\`\`\`
+
+### Configuration
+Table of environment variables:
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| API_KEY | Your API key | Yes | - |
+| PORT | Server port | No | 3000 |
+
+### Running the Application
+\`\`\`bash
+# Development
+npm run dev
+
+# Production
+npm run build && npm start
+\`\`\`
+
+## 10. 📖 Usage
+- Provide practical code examples
+- Show common use cases
+- Include expected outputs
+
+## 11. 📁 Project Structure
+\`\`\`
+project/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── utils/
+├── public/
+├── tests/
+└── package.json
+\`\`\`
+
+## 12. 📜 Available Scripts
+Table of all npm/yarn scripts:
+
+| Script | Description | Usage |
+|--------|-------------|-------|
+| dev | Start development server | \`npm run dev\` |
+| build | Build for production | \`npm run build\` |
+| test | Run tests | \`npm test\` |
+
+## 13. 🧪 Testing
+- Testing framework used
+- How to run tests
+- Coverage information
+- Example test command
+
+## 14. 🗺️ Roadmap
+- [ ] Feature 1 - Brief description
+- [ ] Feature 2 - Brief description
+- [x] Completed feature
+- [ ] Future enhancement
+
+## 15. 🤝 Contributing
+- Contribution guidelines
+- How to submit issues
+- Pull request process
+- Code of conduct mention
+
+## 16. 📝 API Documentation
+(If applicable - skip if not an API/library)
+- Endpoint documentation
+- Request/response examples
+
+## 17. 🔒 Security
+- Security policy mention
+- How to report vulnerabilities
+- Best practices
+
+## 18. 📄 License
+- License type
+- Link to LICENSE file
+- Copyright notice
+
+## 19. 👥 Authors & Contributors
+- Main authors
+- How to become a contributor
+- Link to contributors page
+
+## 20. 🙏 Acknowledgements
+- Credits for libraries/tools used
+- Inspiration sources
+- Special thanks
+
+## 21. 📞 Support & Contact
+- How to get help
+- Community links (Discord, Slack, etc.)
+- Social media
+- Email contact
+
+---
+
+**BADGE CREATION RULES:**
+- Use https://img.shields.io/ for ALL badges
+- Style: for-the-badge (looks more professional)
+- Include logos where applicable (logo=github, logo=typescript, logo=react, etc.)
+- Color scheme: use appropriate colors for different badge types
+- Format: ![Alt Text](badge-url)
+
+**QUALITY STANDARDS:**
+- Professional, clear, and concise writing
+- No marketing fluff - be technical and accurate
+- Use emojis to enhance readability (but don't overdo it)
+- All code blocks must have language specifiers
+- Tables must be properly formatted with headers
+- Links must be functional
+- Derive ALL information from the provided files - be accurate!
+
+${metaSnippet}
+
+Project files (analyze these carefully to extract accurate information):
+${fileSummaries}`;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const { repo, githubToken, userNotes } = await req.json();
+    console.log('Generate README request:', { repo, hasToken: !!githubToken });
+    
     if (!repo || typeof repo !== 'string') {
       return NextResponse.json({ error: 'Missing repo parameter' }, { status: 400 });
     }
@@ -215,6 +421,7 @@ export async function POST(req: NextRequest) {
     if (!parsed) return NextResponse.json({ error: 'Invalid GitHub repo. Use URL or owner/repo.' }, { status: 400 });
 
     const { owner, repo: repoName } = parsed;
+    console.log('Parsed repo:', { owner, repoName });
 
     // Basic repo metadata (also validates private access if token provided)
     let repoMeta: GitHubRepoMeta = {};
@@ -251,13 +458,16 @@ export async function POST(req: NextRequest) {
     // Call Gemini server-side using env key
     const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY_SECOND;
     if (!apiKey) {
+      console.error('Missing Gemini API key');
       return NextResponse.json({ error: 'Server misconfigured: GEMINI_API_KEY (or GEMINI_API_KEY_SECOND) missing' }, { status: 500 });
     }
 
-    // Add a timeout to avoid hanging requests
+    console.log('Calling Gemini API with', files.length, 'files, prompt length:', finalPrompt.length);
+
+    // Add a timeout to avoid hanging requests (increased for longer generation)
     const ctrl = new AbortController();
-    const timeout = setTimeout(() => ctrl.abort(), 30_000);
-    const geminiResp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
+    const timeout = setTimeout(() => ctrl.abort(), 60_000); // 60 seconds for comprehensive README
+    const geminiResp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -268,8 +478,10 @@ export async function POST(req: NextRequest) {
           { parts: [{ text: finalPrompt }] }
         ],
         generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: 4096
+          temperature: 0.4, // Slightly higher for more creative but still professional output
+          maxOutputTokens: 8192, // Increased for comprehensive README with all sections
+          topP: 0.95,
+          topK: 40
         }
       }),
       signal: ctrl.signal
@@ -280,10 +492,13 @@ export async function POST(req: NextRequest) {
 
     if (!geminiResp.ok) {
       const text = await geminiResp.text();
+      console.error('Gemini API error:', geminiResp.status, text);
       return NextResponse.json({ error: `Gemini error ${geminiResp.status}: ${text}` }, { status: 500 });
     }
 
     const data = await geminiResp.json();
+    console.log('Gemini response received, candidates:', data?.candidates?.length);
+    
     // Extract text from Gemini response (robustly join parts)
     try {
       const candidate = data?.candidates?.[0];
@@ -304,6 +519,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Empty response from Gemini' }, { status: 500 });
       }
       const cleaned = normalizeMarkdown(rawText);
+      console.log('README generated successfully, length:', cleaned.length);
       return NextResponse.json({ markdown: cleaned });
     } catch (ex) {
       console.error('Gemini parse error:', ex);
@@ -311,6 +527,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unexpected error';
+    console.error('README generation error:', message, err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
