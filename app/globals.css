@@ -46,9 +46,11 @@
   --amber-400: oklch(0.80 0.20 50);
   --amber-500: oklch(0.70 0.22 45);
   --amber-600: oklch(0.60 0.24 40);
-  --bronze-400: oklch(0.65 0.18 35);
-  --bronze-500: oklch(0.55 0.20 30);
-  --bronze-600: oklch(0.45 0.22 25);
+  
+  /* Golden replacements for bronze colors */
+  --golden-400: oklch(0.78 0.22 65);
+  --golden-500: oklch(0.68 0.24 60);
+  --golden-600: oklch(0.58 0.26 55);
 }
 
 /* Global styles for dialog and header management */
@@ -537,12 +539,12 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .avatar-niche {
   box-shadow: 
-    0 0 25px var(--bronze-400),
-    0 0 50px var(--bronze-500),
-    0 0 75px var(--bronze-600),
-    0 0 100px var(--bronze-600);
-  border: 3px solid var(--bronze-400);
-  animation: bronze-glow 4s ease-in-out infinite alternate;
+    0 0 25px var(--golden-400),
+    0 0 50px var(--golden-500),
+    0 0 75px var(--golden-600),
+    0 0 100px var(--golden-600);
+  border: 3px solid var(--golden-400);
+  animation: golden-glow 4s ease-in-out infinite alternate;
 }
 
 @keyframes amber-glow {
@@ -569,27 +571,27 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   }
 }
 
-@keyframes bronze-glow {
+@keyframes golden-glow {
   0% {
     box-shadow: 
-      0 0 25px var(--bronze-400),
-      0 0 50px var(--bronze-500),
-      0 0 75px var(--bronze-600),
-      0 0 100px var(--bronze-600);
+      0 0 25px var(--golden-400),
+      0 0 50px var(--golden-500),
+      0 0 75px var(--golden-600),
+      0 0 100px var(--golden-600);
   }
   50% {
     box-shadow: 
-      0 0 35px var(--bronze-300),
-      0 0 70px var(--bronze-400),
-      0 0 105px var(--bronze-500),
-      0 0 140px var(--bronze-500);
+      0 0 35px var(--gold-300),
+      0 0 70px var(--golden-400),
+      0 0 105px var(--golden-500),
+      0 0 140px var(--golden-500);
   }
   100% {
     box-shadow: 
-      0 0 25px var(--bronze-400),
-      0 0 50px var(--bronze-500),
-      0 0 75px var(--bronze-600),
-      0 0 100px var(--bronze-600);
+      0 0 25px var(--golden-400),
+      0 0 50px var(--golden-500),
+      0 0 75px var(--golden-600),
+      0 0 100px var(--golden-600);
   }
 }
 
@@ -1410,5 +1412,41 @@ h6::-moz-selection {
   }
   90% {
     transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Spherical Golden Curve Background Classes */
+.spherical-glow-primary {
+  background: radial-gradient(ellipse 120% 60% at 50% 100%, rgba(246, 168, 59, 0.8) 0%, rgba(184, 134, 11, 0.12) 40%, transparent 70%);
+  animation: spherical-pulse 6s ease-in-out infinite alternate;
+}
+
+.spherical-glow-secondary {
+  background: radial-gradient(ellipse 100% 50% at 50% 100%, rgba(205, 127, 50, 0.18) 0%, rgba(180, 83, 9, 0.09) 50%, transparent 70%);
+  animation: spherical-pulse 8s ease-in-out infinite alternate-reverse;
+}
+
+.spherical-glow-inner {
+  background: radial-gradient(ellipse 80% 40% at 50% 100%, rgba(194, 120, 28, 0.12) 0%, rgba(161, 98, 7, 0.06) 60%, transparent 80%);
+  animation: spherical-pulse 7s ease-in-out infinite alternate;
+}
+
+.spherical-glow-edge {
+  background: radial-gradient(ellipse 60% 30% at 50% 100%, rgba(184, 134, 11, 0.08) 0%, transparent 60%);
+}
+
+/* Subtle spherical glow animation */
+@keyframes spherical-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
   }
 }  

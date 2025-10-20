@@ -18,13 +18,10 @@ const Page = () => {
       <FloatingGoldenOrbs />
       <GoldenSparkleTrail />
 
-      {/* Fullscreen Hero Cover - Optimized without 3D element */}
+      {/* Fullscreen Hero Cover */}
       <section className="relative w-full h-screen z-10 overflow-hidden">
-        {/* Elegant gradient background instead of Spline */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-amber-950/20 to-black">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(180,83,9,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-        </div>
+        {/* Simple background */}
+        <div className="absolute inset-0 bg-black" />
 
         {/* Gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 z-10" />
@@ -84,11 +81,11 @@ const Page = () => {
         </div>
       </section>
 
-      {/* Hero Section - Moved up for seamless integration */}
-      <section className="relative z-30 -mt-32 pt-16 pb-16 bg-gradient-to-t from-black via-black/90 to-transparent">
-        <div className="max-w-10xl mx-auto px-4">
+      {/* Hero Section - Moved closer for a new effect with search.png near badges */}
+      <section className="relative z-30 -mt-64 pt-8 pb-16 bg-gradient-to-t from-black via-black/90 to-transparent">
+        <div className="w-full">
           {/* Subtle separator line for visual flow */}
-          <div className="w-32 h-px bg-gradient-to-r from-transparent via-golden-400/50 to-transparent mx-auto mb-8"></div>
+          <div className="w-32 h-px bg-gradient-to-r from-transparent via-golden-400/50 to-transparent mx-auto mb-4"></div>
           
           <Hero
             title=""

@@ -53,14 +53,14 @@ export default function Hero({
   title = "NEXUS",
   description = "Enter a concept to discover and analyze relevant open-source projects.",
   mockup = (
-  <div className="w-full flex justify-center">
+  <div className="w-full flex">
     <Screenshot
       srcLight="/GithubImages/search.png"
       srcDark="/GithubImages/search.png"
       alt="Search UI app screenshot"
       width={1920}
       height={1080}
-      className="w-[90vw] max-w-7xl rounded-2xl shadow-2xl border border-border/20 object-contain"
+      className="w-full rounded-2xl shadow-2xl border border-border/20 object-contain"
     />
   </div>
 ),
@@ -154,8 +154,8 @@ export default function Hero({
           <GitHubStarBadge repoFullName="itzdineshx/NEXUS" compact />
         </div>
         
-        <div className="max-w-container mx-auto flex flex-col gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-16 px-4 sm:px-6 md:px-8">
-          <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-8 text-center">
+        <div className="w-full flex flex-col gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-16">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-8 text-center px-4 sm:px-6 md:px-8">
             {badge !== false && (
               <div className="scale-75 sm:scale-90 md:scale-100">
                 {badge}
@@ -185,24 +185,24 @@ export default function Hero({
               </span>
             </h1>
             
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl animate-appear text-muted-foreground relative z-10 max-w-[300px] sm:max-w-[500px] md:max-w-[600px] lg:max-w-[740px] font-medium text-balance opacity-0 delay-100 px-2 sm:px-4 md:px-0">
+            <div className="text-sm sm:text-base md:text-lg lg:text-xl animate-appear text-muted-foreground relative z-10 max-w-[300px] sm:max-w-[500px] md:max-w-[600px] lg:max-w-[740px] font-medium text-balance opacity-0 delay-100 px-2 sm:px-4 md:px-0">
               {/* Golden sparkle dots around description - responsive positioning */}
               <div className="absolute -left-3 sm:-left-4 md:-left-6 -top-1 sm:-top-2 w-2 h-2 sm:w-3 sm:h-3 bg-[radial-gradient(circle,rgba(255,215,0,0.6),transparent_70%)] rounded-full animate-pulse" />
               <div className="absolute -right-3 sm:-right-4 md:-right-6 -bottom-1 sm:-bottom-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[radial-gradient(circle,rgba(218,165,32,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
               <div className="absolute -left-4 sm:-left-6 md:-left-8 top-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[radial-gradient(circle,rgba(205,127,50,0.4),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
               {description}
-            </p>
+            </div>
             
             {mockup !== false && (
-              <div className="relative w-full pt-3 sm:pt-4 md:pt-6 pb-3 sm:pb-4 md:pb-6 px-2 sm:px-0">
+              <div className="relative w-full pt-3 sm:pt-4 md:pt-6 pb-3 sm:pb-4 md:pb-6 px-0">
                 {/* Golden sparkle effects around mockup - responsive sizing and positioning */}
                 <div className="absolute -left-4 sm:-left-6 md:-left-8 top-1/2 w-2 sm:w-3 md:w-4 h-2 sm:h-3 md:h-4 bg-[radial-gradient(circle,rgba(255,215,0,0.4),transparent_70%)] rounded-full animate-pulse" />
                 <div className="absolute -right-4 sm:-right-6 md:-right-8 top-1/2 w-2 sm:w-2.5 md:w-3 h-2 sm:h-2.5 md:h-3 bg-[radial-gradient(circle,rgba(218,165,32,0.3),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
                 <div className="absolute left-1/2 -top-3 sm:-top-4 md:-top-6 w-1.5 sm:w-2 md:w-2 h-1.5 sm:h-2 md:h-2 bg-[radial-gradient(circle,rgba(205,127,50,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1.2s' }} />
                 
-                <a href="/search" className="block">
+                <a href="/search" className="block w-full">
                   <MockupFrame
-                    className="animate-appear opacity-0 delay-700 scale-90 sm:scale-95 md:scale-100"
+                    className="animate-appear opacity-0 delay-700 w-full"
                     size="small"
                   >
                     <Mockup

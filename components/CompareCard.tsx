@@ -560,7 +560,7 @@ export default function CompareCard() {
             <div className="absolute -right-8 top-1/2 w-3 h-3 bg-[radial-gradient(circle,rgba(218,165,32,0.3),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
             <div className="absolute left-1/2 -top-6 w-2 h-2 bg-[radial-gradient(circle,rgba(205,127,50,0.5),transparent_70%)] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-golden-400 via-amber-500 to-bronze-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-golden-400 via-amber-500 to-golden-500 bg-clip-text text-transparent">
               Compare Developers
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">

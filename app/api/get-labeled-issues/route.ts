@@ -98,6 +98,34 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ issues, total: estimatedTotal, page, perPage, hasMore: issues.length === perPage });
   } catch (error) {
     console.error('Error fetching repository issues with labels:', error);
-    return NextResponse.json({ error: 'Failed to fetch repository issues' }, { status: 500 });
+    
+    // Handle specific GitHub API errors
+    if (error instanceof Error) {
+      if (error.message.includes('GitHub token not configured')) {
+        return NextResponse.json({ 
+          error: 'GitHub authentication not configured. Please set GITHUB_TOKEN in .env.local',
+          docs: '/GITHUB_SETUP.md'
+        }, { status: 401 });
+      }
+      
+      if (error.message.includes('Request failed with status code 401')) {
+        return NextResponse.json({ 
+          error: 'GitHub token is invalid or expired. Please update GITHUB_TOKEN in .env.local',
+          docs: '/GITHUB_SETUP.md'
+        }, { status: 401 });
+      }
+      
+      if (error.message.includes('Request failed with status code 403')) {
+        return NextResponse.json({ 
+          error: 'GitHub API rate limit exceeded. Please wait or use an authenticated token.',
+          docs: '/GITHUB_SETUP.md'
+        }, { status: 429 });
+      }
+    }
+    
+    return NextResponse.json({ 
+      error: 'Failed to fetch repository issues',
+      hint: 'Check console for details or ensure GitHub token is properly configured'
+    }, { status: 500 });
   }
 }
