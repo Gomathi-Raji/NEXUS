@@ -333,7 +333,7 @@ const FlowDiagramInner = ({
 
     const flowNodes = layoutElements(baseNodes, baseEdges);
     return { nodes: flowNodes, edges: baseEdges };
-  }, [animateEdges, density, direction, layoutElements]);
+  }, [animateEdges, layoutElements]);
 
   useEffect(() => {
     try {

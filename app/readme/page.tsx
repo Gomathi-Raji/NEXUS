@@ -30,7 +30,6 @@ import {
   Check,
   ChevronsDown,
 } from "lucide-react";
-import Image from "next/image";
 
 // Ensure clean GitHub-flavored Markdown spacing and no stray HTML wrappers
 function normalizeMarkdown(input: string): string {

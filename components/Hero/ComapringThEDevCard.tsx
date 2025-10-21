@@ -53,49 +53,6 @@ interface UserComparisonCardProps {
   winner: string | null;
 }
 
-function SkeletonCard() {
-  return (
-    <div
-      className="glass-card backdrop-blur-3xl backdrop-saturate-200 border rounded-2xl p-6 relative overflow-hidden w-full animate-pulse"
-      style={{
-        background: 'linear-gradient(135deg, rgba(8,8,10,0.98) 80%, rgba(3,3,5,0.96) 100%)',
-        border: '1px solid rgba(255,255,255,0.12)'
-      }}
-    >
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-xl bg-white/10" />
-        <div className="flex-1 space-y-2">
-          <div className="h-4 bg-white/10 rounded w-1/3" />
-          <div className="h-3 bg-white/10 rounded w-1/4" />
-        </div>
-        <div className="w-5 h-5 bg-white/10 rounded" />
-      </div>
-      <div className="h-10 bg-white/10 rounded mb-4" />
-      <div className="grid grid-cols-4 gap-2 mb-4">
-        {[0,1,2,3].map((i) => (
-          <div key={i} className="h-12 bg-white/10 rounded" />
-        ))}
-      </div>
-      <div className="h-24 bg-white/10 rounded mb-4" />
-      <div className="space-y-2 mb-4">
-        {[0,1].map((i) => (
-          <div key={i} className="h-6 bg-white/10 rounded" />
-        ))}
-      </div>
-      <div className="flex gap-2 mb-3">
-        {[0,1,2].map((i) => (
-          <div key={i} className="h-6 w-20 bg-white/10 rounded" />
-        ))}
-      </div>
-      <div className="space-y-2">
-        {[0,1].map((i) => (
-          <div key={i} className="h-10 bg-white/10 rounded" />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function UserComparisonCard({ user, stats, badge, winner }: UserComparisonCardProps) {
   const BadgeIcon = badge.icon;
   

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { ContainerScroll } from "../ui/container-scroll-animation";
 
 export function HeroScrollDemo() {
@@ -21,7 +22,7 @@ export function HeroScrollDemo() {
           </>
         }
       >
-        <img
+        <Image
           src="/GithubImages/search.png"
           alt="Project search interface"
           height={720}

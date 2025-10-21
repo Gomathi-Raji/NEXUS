@@ -20,7 +20,7 @@ export function GitHubStatusIndicator() {
       const response = await fetch('/api/github-status');
       const data = await response.json();
       setStatus(data);
-    } catch (error) {
+    } catch {
       setStatus({ 
         hasToken: false, 
         error: 'Failed to check GitHub API status' 

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
 import { GoodTextTestimonials } from "@/components/Hero/GoodText";
@@ -68,7 +69,7 @@ const ReviewCard = ({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img className="rounded-full border border-white/10" width="40" height="40" alt="" src={img} />
+          <Image className="rounded-full border border-white/10" width="40" height="40" alt="" src={img} />
           <div className="min-w-0">
             <figcaption className="text-sm font-semibold text-white truncate max-w-[11rem] flex items-center gap-1">
               {name}

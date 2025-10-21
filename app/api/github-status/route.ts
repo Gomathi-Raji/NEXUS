@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { GitHubService } from '@/lib/github';
 
 export async function GET() {
   try {
@@ -13,7 +12,7 @@ export async function GET() {
     }
 
     // Test the token by making a simple API call
-    const githubService = new GitHubService();
+    // const githubService = new GitHubService(); // Removed unused variable
     
     try {
       // Make a lightweight API call to check rate limits
@@ -45,7 +44,7 @@ export async function GET() {
       });
     }
 
-  } catch (error) {
+  } catch {
     return NextResponse.json({
       hasToken: false,
       error: 'Failed to check GitHub API status'
