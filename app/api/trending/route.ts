@@ -70,23 +70,28 @@ interface TrendingDeveloper {
 }
 
 function getDateRange(since: string): string {
+  // Always use current UTC time to ensure consistency across all requests
   const now = new Date();
   let date: Date;
 
   switch (since) {
     case 'daily':
+      // Last 24 hours from now
       date = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       break;
     case 'weekly':
+      // Last 7 days from now
       date = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       break;
     case 'monthly':
+      // Last 30 days from now
       date = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
       break;
     default:
       date = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   }
 
+  // Return ISO date format (YYYY-MM-DD) for GitHub API
   return date.toISOString().split('T')[0];
 }
 
@@ -225,10 +230,22 @@ export async function GET(request: NextRequest) {
 
         const validDevelopers = developers.filter((dev): dev is TrendingDeveloper => dev !== null);
 
-        return NextResponse.json({
+        const developersResponse = NextResponse.json({
           items: validDevelopers,
           total_count: validDevelopers.length,
+          // Add timestamp to verify data freshness
+          generated_at: new Date().toISOString(),
+          date_range: {
+            since,
+            from_date: dateRange,
+            to_date: new Date().toISOString().split('T')[0],
+          },
         });
+
+        // Set cache headers to ensure data is fresh (5 minute cache)
+        developersResponse.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+        
+        return developersResponse;
       } catch (devError) {
         console.error('Developer search failed:', devError);
         return NextResponse.json({
@@ -341,9 +358,16 @@ export async function GET(request: NextRequest) {
 
         const repos: TrendingRepo[] = trendingRepos;
 
-      return NextResponse.json({
+      const response = NextResponse.json({
         items: repos,
         total_count: repos.length,
+        // Add timestamp to verify data freshness
+        generated_at: new Date().toISOString(),
+        date_range: {
+          since,
+          from_date: dateRange,
+          to_date: new Date().toISOString().split('T')[0],
+        },
         // Add debugging info for Z-score algorithm
         debug: process.env.NODE_ENV === 'development' ? {
           algorithm: 'Z-score based trending detection',
@@ -370,6 +394,11 @@ export async function GET(request: NextRequest) {
           }))
         } : undefined
       });
+
+      // Set cache headers to ensure data is fresh (5 minute cache)
+      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      
+      return response;
 
     } catch (searchError) {
       console.error('Advanced trending search failed, falling back to simple search:', searchError);
