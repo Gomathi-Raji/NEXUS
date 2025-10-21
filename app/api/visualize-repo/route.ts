@@ -27,19 +27,35 @@ export async function GET(request: NextRequest) {
     type FileEntry = { path: string };
     const filePaths: string[] = (fileTree as FileEntry[]).map((n) => n.path);
 
-    // Try to read package.json for deps/scripts
+    // Try to read project configuration files
     const [owner, repo] = repoFullName.split('/');
     let dependencies: Record<string, string> | null = null;
     let scripts: Record<string, string> | null = null;
-    try {
-      const pkg = await github.getFileContent(owner, repo, 'package.json');
-      if (pkg) {
-        const parsed = JSON.parse(pkg);
-        dependencies = { ...(parsed.dependencies || {}), ...(parsed.devDependencies || {}) };
-        scripts = parsed.scripts || null;
+
+    // Try different project files
+    const projectFiles = [
+      'package.json',
+      'requirements.txt', 
+      'Cargo.toml',
+      'pom.xml',
+      'go.mod',
+      'composer.json'
+    ];
+
+    for (const file of projectFiles) {
+      try {
+        const content = await github.getFileContent(owner, repo, file);
+        if (content) {
+          if (file === 'package.json') {
+            const parsed = JSON.parse(content);
+            dependencies = { ...(parsed.dependencies || {}), ...(parsed.devDependencies || {}) };
+            scripts = parsed.scripts || null;
+          }
+          break; // Found a project file, stop looking
+        }
+      } catch {
+        // Continue to next file
       }
-    } catch {
-      // ignore
     }
 
     // Categorize a sample of paths to help the LLM structure layers

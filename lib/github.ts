@@ -162,6 +162,12 @@ export class GitHubService {
       }
       return null;
     } catch (error) {
+      // Only log non-404 errors to reduce noise
+      const axiosError = error as { response?: { status: number } };
+      if (axiosError.response?.status === 404) {
+        // File doesn't exist - this is expected for many files
+        return null;
+      }
       console.error('GitHub file content error:', error);
       return null;
     }
