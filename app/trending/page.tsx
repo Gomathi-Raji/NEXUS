@@ -23,6 +23,8 @@ interface TrendingRepo {
     html_url: string;
   };
   homepage?: string;
+  z_score?: number;
+  stars_velocity?: number;
 }
 
 interface TrendingDeveloper {
@@ -270,6 +272,24 @@ export default function TrendingPage() {
                     <div className="flex items-center space-x-1">
                       <div className={`w-3 h-3 rounded-full ${getLanguageClass(repo.language)}`}></div>
                       <span>{repo.language}</span>
+                    </div>
+                  )}
+                  {/* Show Z-score for development with color coding */}
+                  {process.env.NODE_ENV === 'development' && repo.z_score !== undefined && (
+                    <div className={`flex items-center space-x-1 text-xs px-2 py-1 rounded ${
+                      repo.z_score > 1.5 
+                        ? 'bg-green-500/30 text-green-200 border border-green-400/40' 
+                        : repo.z_score > 0.5
+                        ? 'bg-amber-500/30 text-amber-200 border border-amber-400/40'
+                        : repo.z_score > 0
+                        ? 'bg-blue-500/30 text-blue-200 border border-blue-400/40'
+                        : 'bg-red-500/30 text-red-200 border border-red-400/40'
+                    }`}>
+                      <TrendingUp className="w-3 h-3" />
+                      <span>Z: {repo.z_score.toFixed(2)}</span>
+                      <span className="text-xs opacity-75">
+                        {repo.z_score > 1.5 ? '🔥' : repo.z_score > 0.5 ? '📈' : repo.z_score > 0 ? '↗️' : '📉'}
+                      </span>
                     </div>
                   )}
                 </div>

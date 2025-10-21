@@ -30,6 +30,7 @@ import {
   Check,
   ChevronsDown,
 } from "lucide-react";
+import Image from "next/image";
 
 // Ensure clean GitHub-flavored Markdown spacing and no stray HTML wrappers
 function normalizeMarkdown(input: string): string {
@@ -540,9 +541,12 @@ export default function ReadmePage() {
     // We intentionally allow raw <img> tags inside rendered README markdown, since these may come
     // from external sources and Next/Image optimization isn't always applicable here.
   
-    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-      <img {...props} alt={props.alt ?? ''} className="inline-block align-middle mr-2 mb-2 rounded" />
-    ),
+    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+      // For README content, we use regular img tags since external sources
+      // may not work well with Next.js Image optimization
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img {...props} alt={props.alt ?? ''} className="inline-block align-middle mr-2 mb-2 rounded" />;
+    },
     p: (props: React.ComponentProps<'p'>) => {
       const childrenArray = React.Children.toArray(props.children);
       const isAllImages =
