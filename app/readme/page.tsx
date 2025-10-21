@@ -484,44 +484,44 @@ export default function ReadmePage() {
 
   // Typed ReactMarkdown components to satisfy TS for `inline` on code
   const markdownComponents: Components = {
-    h1: (props) => (
+    h1: (props: React.HTMLProps<HTMLHeadingElement>) => (
       <h1
         {...props}
         className="mt-0 mb-4 text-3xl md:text-4xl font-extrabold tracking-tight border-b border-white/10 pb-2"
       />
     ),
-    h3: (props) => (
+    h3: (props: React.HTMLProps<HTMLHeadingElement>) => (
       <h3
         {...props}
         className="mt-6 mb-2 text-xl md:text-2xl font-semibold"
       />
     ),
-    h4: (props) => (
+    h4: (props: React.HTMLProps<HTMLHeadingElement>) => (
       <h4
         {...props}
         className="mt-5 mb-2 text-lg md:text-xl font-semibold"
       />
     ),
-    h2: (props) => (
+    h2: (props: React.HTMLProps<HTMLHeadingElement>) => (
       <h2
         {...props}
         className="mt-8 mb-3 text-2xl md:text-3xl font-bold border-b border-white/10 pb-1"
       />
     ),
-    table: ({ children }) => (
+    table: (props: React.HTMLProps<HTMLTableElement>) => (
       <div className="my-6 overflow-x-auto rounded-xl border border-white/10 bg-white/5">
-        <table className="w-full text-left text-sm">{children}</table>
+        <table {...props} className="w-full text-left text-sm" />
       </div>
     ),
-    thead: ({ children }) => <thead className="bg-white/5">{children}</thead>,
-    th: (props) => <th {...props} className="px-3 py-2 font-semibold text-white/90" />,
-    td: (props) => <td {...props} className="px-3 py-2 align-top text-white/80" />,
-    tr: (props) => <tr {...props} className="border-t border-white/10" />,
-    blockquote: (props) => (
+    thead: (props: React.HTMLProps<HTMLTableSectionElement>) => <thead {...props} className="bg-white/5" />,
+    th: (props: React.HTMLProps<HTMLTableCellElement>) => <th {...props} className="px-3 py-2 font-semibold text-white/90" />,
+    td: (props: React.HTMLProps<HTMLTableCellElement>) => <td {...props} className="px-3 py-2 align-top text-white/80" />,
+    tr: (props: React.HTMLProps<HTMLTableRowElement>) => <tr {...props} className="border-t border-white/10" />,
+    blockquote: (props: React.HTMLProps<HTMLQuoteElement>) => (
       <blockquote {...props} className="border-l-4 border-indigo-400/40 bg-white/5 px-4 py-3 rounded-r-lg" />
     ),
-    code: (props) => {
-      const { inline, children, ...rest } = props as React.ComponentProps<'code'> & { inline?: boolean };
+    code: (props: React.ComponentProps<'code'> & { inline?: boolean }) => {
+      const { inline, children, ...rest } = props;
       return inline ? (
         <code {...rest} className="bg-white/10 px-1.5 py-0.5 rounded">{children}</code>
       ) : (

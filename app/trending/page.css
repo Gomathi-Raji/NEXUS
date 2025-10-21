@@ -5,6 +5,15 @@
   border-radius: 9999px;
 }
 
+/* Animation delay classes */
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animate-delay-1000 {
+  animation-delay: 1s;
+}
+
 .lang-javascript { background-color: #f1e05a; }
 .lang-typescript { background-color: #3178c6; }
 .lang-python { background-color: #3572A5; }

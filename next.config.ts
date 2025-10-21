@@ -7,17 +7,47 @@ const nextConfig = {
   },
   // Optimize images
   images: {
-    domains: [
-      'avatars.githubusercontent.com',
-      'github.githubassets.com',
-      'seeklogo.com',
-      'www.docker.com',
-      'github.com',
-      'x.com',
-      'pbs.twimg.com',
-      'peerlist.io',
-      'api.producthunt.com',
-      'www.producthunt.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.githubassets.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'seeklogo.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.docker.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'x.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'peerlist.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.producthunt.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.producthunt.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
